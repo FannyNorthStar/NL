@@ -11,6 +11,12 @@
     font-weight: normal;
     font-style: normal;
   }
+  @font-face {
+    font-family: 'Departementales';
+    src: url('./fonts/Departementales-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -179,9 +185,9 @@
   .stamp img { width: 100%; height: 100%; object-fit: contain; }
 
   .main-text {
-    font-family: 'Choupinet', 'Courier New', monospace;
+    font-family: 'Departementales', 'Choupinet', 'Courier New', monospace;
     color: #1b3c87;
-    font-size: 15px;
+    font-size: 18px;
     text-align: left;
     line-height: 1.7;
     text-transform: uppercase;
@@ -225,9 +231,9 @@
   }
 
   .haiku-text {
-    font-family: 'Choupinet', 'Courier New', monospace;
+    font-family: 'Departementales', 'Choupinet', 'Courier New', monospace;
     color: #1b3c87;
-    font-size: 24px;
+    font-size: 28px;
     text-align: left;
     line-height: 2;
     text-transform: uppercase;
@@ -262,9 +268,9 @@
     margin-bottom: 8px;
   }
   .slide-card textarea {
-    font-family: 'Choupinet', 'Courier New', monospace;
+    font-family: 'Departementales', 'Choupinet', 'Courier New', monospace;
     color: #1b3c87;
-    font-size: 18px;
+    font-size: 20px;
     text-align: left;
     line-height: 2;
     text-transform: uppercase;
@@ -362,8 +368,14 @@
     Le texte passe automatiquement en majuscules — les accents sont conservés.
   </p>
   <div class="controls">
+    <label>Police
+      <select id="carteFont" onchange="updateCarteFont()">
+        <option value="Departementales">Départementales</option>
+        <option value="Choupinet">Choupinet</option>
+      </select>
+    </label>
     <label>Taille du texte
-      <input type="number" id="fontSize" value="15" min="8" max="40" step="1" style="width:60px">
+      <input type="number" id="fontSize" value="18" min="8" max="50" step="1" style="width:60px">
     </label>
     <label>Format
       <select id="exportFormat">
@@ -396,6 +408,12 @@
     Pour le Reel, ajoutez plusieurs slides — importez-les ensuite dans CapCut ou en carrousel.
   </p>
   <div class="controls">
+    <label>Police
+      <select id="haikuFont" onchange="updateHaikuFont()">
+        <option value="Departementales">Départementales</option>
+        <option value="Choupinet">Choupinet</option>
+      </select>
+    </label>
     <label>Format
       <select id="haikuFormat" onchange="updateHaikuFormat()">
         <option value="story">Story — 1080 × 1920</option>
@@ -406,7 +424,7 @@
       </select>
     </label>
     <label>Taille du texte
-      <input type="number" id="haikuFontSize" value="42" min="10" max="80" step="1" style="width:60px">
+      <input type="number" id="haikuFontSize" value="50" min="10" max="100" step="1" style="width:60px">
     </label>
     <label>Export
       <select id="haikuExportFormat">
@@ -442,6 +460,24 @@ function switchTab(tab) {
   document.querySelector(`.tab-btn[onclick="switchTab('${tab}')"]`).classList.add('active');
 }
 
+/* ══ POLICES — mise à jour preview ══ */
+function getCanvasFont(selectId) {
+  const val = document.getElementById(selectId).value;
+  return val + ", 'Courier New', monospace";
+}
+
+function updateCarteFont() {
+  const font = document.getElementById('carteFont').value;
+  document.getElementById('mainText').style.fontFamily = font + ", 'Courier New', monospace";
+}
+
+function updateHaikuFont() {
+  const font = document.getElementById('haikuFont').value;
+  const ff = font + ", 'Courier New', monospace";
+  document.getElementById('haikuText').style.fontFamily = ff;
+  document.querySelectorAll('.slide-card textarea').forEach(ta => { ta.style.fontFamily = ff; });
+}
+
 /* ══ ACCENTS MAJUSCULES ══ */
 const ACCENT_MAP = {
   'É':{base:'E',type:'acute'},'È':{base:'E',type:'grave'},'Ê':{base:'E',type:'circumflex'},'Ë':{base:'E',type:'diaeresis'},
@@ -468,7 +504,6 @@ function drawAccent(ctx, type, cx, top, fontSize) {
   ctx.restore();
 }
 
-/* Dessine une ligne alignée à gauche avec accents */
 function drawLineLeftAligned(ctx, line, leftX, centerY, fontSize) {
   const upper = line.toUpperCase();
   let clean = ''; const accents = [];
@@ -486,11 +521,10 @@ function drawLineLeftAligned(ctx, line, leftX, centerY, fontSize) {
   }
 }
 
-/* Dessine un bloc de texte aligné à gauche mais centré horizontalement */
 function drawTextBlock(ctx, text, canvasW, centerY, fontSize, lineH) {
   const lines = text.split('\n');
 
-  // Mesurer la largeur max pour centrer le bloc
+  // Mesurer chaque ligne pour trouver la plus large
   let maxW = 0;
   const prepared = lines.map(line => {
     const upper = line.toUpperCase();
@@ -500,16 +534,17 @@ function drawTextBlock(ctx, text, canvasW, centerY, fontSize, lineH) {
     }
     const w = ctx.measureText(clean).width;
     if (w > maxW) maxW = w;
-    return { raw: line, clean, w };
+    return line;
   });
 
+  // Bloc centré horizontalement, texte aligné à gauche dedans
   const blockLeft = (canvasW - maxW) / 2;
   const totalH = lines.length * lineH;
   const startY = centerY - totalH / 2;
 
-  prepared.forEach((l, i) => {
+  prepared.forEach((line, i) => {
     const cy = startY + i * lineH + lineH / 2;
-    drawLineLeftAligned(ctx, l.raw, blockLeft, cy, fontSize);
+    drawLineLeftAligned(ctx, line, blockLeft, cy, fontSize);
   });
 }
 
@@ -596,6 +631,7 @@ function exportCard() {
   const ctx = canvas.getContext('2d');
   const dispW = photoZone.offsetWidth, dispH = photoZone.offsetHeight;
   const rx = CARD_W / dispW, ry = PHOTO_H / dispH;
+  const fontName = document.getElementById('carteFont').value;
 
   // Photo
   if (photoImg) {
@@ -618,16 +654,16 @@ function exportCard() {
     ctx.drawImage(timbreImg, CARD_W - sw - 24, PHOTO_H + MARGIN_H + 10, sw, sh);
   }
 
-  // Texte — bloc aligné gauche, centré horizontalement
-  const fs = parseInt(document.getElementById('fontSize').value) || 15;
+  // Texte
+  const fs = parseInt(document.getElementById('fontSize').value) || 18;
   const realFS = fs * rx;
   ctx.fillStyle = '#1b3c87';
-  ctx.font = `${realFS}px Choupinet, Courier New, monospace`;
+  ctx.font = `${realFS}px ${fontName}, 'Courier New', monospace`;
   const lineH = realFS * 1.7;
   const textCenterY = PHOTO_H + MARGIN_H + (TEXT_H - MARGIN_H) / 2 - 20 * rx;
   drawTextBlock(ctx, mainText.value, CARD_W, textCenterY, realFS, lineH);
 
-  // Logo carte postale
+  // Logo
   if (logoImg.complete && logoImg.naturalWidth > 0) {
     const lh = 76, lw = (logoImg.naturalWidth / logoImg.naturalHeight) * lh;
     ctx.globalAlpha = 0.85;
@@ -668,11 +704,12 @@ function updateHaikuFormat() {
 }
 
 function addSlide() {
+  const font = document.getElementById('haikuFont').value;
   const div = document.createElement('div');
   div.className = 'slide-card';
   div.innerHTML = `
     <div class="slide-label">Slide</div>
-    <textarea rows="3" placeholder="haïku…"></textarea>
+    <textarea rows="3" placeholder="haïku…" style="font-family: ${font}, 'Courier New', monospace"></textarea>
     <button class="remove-slide" onclick="removeSlide(this)" title="Supprimer">×</button>
   `;
   document.getElementById('slidesContainer').appendChild(div);
@@ -695,40 +732,38 @@ function renumberSlides() {
 function exportHaiku() {
   const fmt = document.getElementById('haikuFormat').value;
   const dim = HAIKU_FORMATS[fmt];
-  const fs = parseInt(document.getElementById('haikuFontSize').value) || 42;
+  const fs = parseInt(document.getElementById('haikuFontSize').value) || 50;
   const expFmt = document.getElementById('haikuExportFormat').value;
+  const fontName = document.getElementById('haikuFont').value;
 
   if (fmt === 'reel') {
     reelSlides.forEach((slide, i) => {
       const text = slide.querySelector('textarea').value;
       if (!text.trim()) return;
-      const canvas = renderHaikuCanvas(dim.w, dim.h, text, fs);
+      const canvas = renderHaikuCanvas(dim.w, dim.h, text, fs, fontName);
       downloadCanvas(canvas, `haiku-reel-${i + 1}`, expFmt);
     });
   } else {
     const text = document.getElementById('haikuText').value;
     if (!text.trim()) return;
-    const canvas = renderHaikuCanvas(dim.w, dim.h, text, fs);
+    const canvas = renderHaikuCanvas(dim.w, dim.h, text, fs, fontName);
     downloadCanvas(canvas, `haiku-${fmt}`, expFmt);
   }
 }
 
-function renderHaikuCanvas(w, h, text, fontSize) {
+function renderHaikuCanvas(w, h, text, fontSize, fontName) {
   const canvas = document.createElement('canvas');
   canvas.width = w; canvas.height = h;
   const ctx = canvas.getContext('2d');
 
-  // Fond blanc
   ctx.fillStyle = '#ffffff';
   ctx.fillRect(0, 0, w, h);
 
-  // Texte — bloc aligné gauche, centré horizontalement
   ctx.fillStyle = '#1b3c87';
-  ctx.font = `${fontSize}px Choupinet, Courier New, monospace`;
+  ctx.font = `${fontSize}px ${fontName}, 'Courier New', monospace`;
   const lineH = fontSize * 2;
   drawTextBlock(ctx, text, w, h / 2, fontSize, lineH);
 
-  // Logo blanc en bas
   if (logoBlancImg.complete && logoBlancImg.naturalWidth > 0) {
     const lh = 60, lw = (logoBlancImg.naturalWidth / logoBlancImg.naturalHeight) * lh;
     ctx.drawImage(logoBlancImg, (w - lw) / 2, h - lh - 20, lw, lh);
