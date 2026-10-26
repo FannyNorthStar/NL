@@ -39,7 +39,6 @@
     letter-spacing: 0.06em;
   }
 
-  /* ── Onglets ── */
   .tabs {
     display: flex;
     gap: 0;
@@ -65,9 +64,7 @@
     border-bottom: 1px solid #faf6ec;
     font-weight: bold;
   }
-  .tab-btn:hover:not(.active) {
-    background: #f0ead8;
-  }
+  .tab-btn:hover:not(.active) { background: #f0ead8; }
 
   .tab-content { display: none; flex-direction: column; align-items: center; }
   .tab-content.active { display: flex; }
@@ -133,7 +130,7 @@
 
   .photo-zone {
     position: absolute; top: 0; left: 0;
-    width: 100%; height: 60%;
+    width: 100%; height: 59%;
     overflow: hidden;
     background-image:
       linear-gradient(45deg, #d8d0b8 25%, transparent 25%),
@@ -145,6 +142,7 @@
     background-color: #e2dac4;
     display: flex; align-items: center; justify-content: center;
     cursor: grab;
+    border-bottom: 6px solid #fff;
   }
   .photo-zone.dragging { cursor: grabbing; }
   .photo-zone img {
@@ -171,13 +169,6 @@
     align-items: center; justify-content: center;
     padding: 20px 32px;
     overflow: hidden;
-  }
-  .text-zone::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 10%; right: 10%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, #c8b88a, transparent);
   }
 
   .stamp {
@@ -235,7 +226,7 @@
   .haiku-text {
     font-family: 'Choupinet', 'Courier New', monospace;
     color: #1b3c87;
-    font-size: 16px;
+    font-size: 24px;
     text-align: center;
     line-height: 2;
     text-transform: uppercase;
@@ -254,7 +245,6 @@
     opacity: 0.6;
   }
 
-  /* Reel : slides multiples */
   .slides-container { width: 100%; max-width: 500px; }
   .slide-card {
     background: #fff;
@@ -272,7 +262,7 @@
   .slide-card textarea {
     font-family: 'Choupinet', 'Courier New', monospace;
     color: #1b3c87;
-    font-size: 14px;
+    font-size: 18px;
     text-align: center;
     line-height: 2;
     text-transform: uppercase;
@@ -313,7 +303,6 @@
   }
   .add-slide-btn:hover { background: #f0ead8; color: #1b3c87; }
 
-  /* ── Boutons ── */
   .actions {
     margin-top: 24px;
     display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;
@@ -359,22 +348,17 @@
 <h1>Studio</h1>
 <p class="tagline">La beauté du quotidien</p>
 
-<!-- Onglets -->
 <div class="tabs">
   <button class="tab-btn active" onclick="switchTab('carte')">Carte Postale</button>
   <button class="tab-btn" onclick="switchTab('haiku')">Haïkus</button>
 </div>
 
-<!-- ══════════════════════════════════════
-     ONGLET 1 — CARTE POSTALE
-     ══════════════════════════════════════ -->
+<!-- ONGLET 1 — CARTE POSTALE -->
 <div class="tab-content active" id="tab-carte">
-
   <p class="hint">
     Glissez une photo dans la zone du haut · <kbd>Molette</kbd> zoom · Glissez pour recadrer<br>
     Le texte passe automatiquement en majuscules — les accents sont conservés.
   </p>
-
   <div class="controls">
     <label>Taille du texte
       <input type="number" id="fontSize" value="15" min="8" max="40" step="1" style="width:60px">
@@ -387,38 +371,28 @@
       </select>
     </label>
   </div>
-
   <div class="canvas-wrap" id="cardWrap">
     <div class="photo-zone" id="photoZone">
       <span class="drop-label" id="dropLabel">Glissez votre photo ici<br>ou cliquez</span>
     </div>
     <div class="text-zone" id="textZone">
-      <div class="stamp">
-        <img src="./timbre.png" alt="timbre">
-      </div>
+      <div class="stamp"><img src="./timbre.png" alt="timbre"></div>
       <textarea class="main-text" id="mainText" rows="4" placeholder="votre texte ici…"></textarea>
-      <div class="logo-bottom">
-        <img src="./logo.png" alt="logo">
-      </div>
+      <div class="logo-bottom"><img src="./logo.png" alt="logo"></div>
     </div>
   </div>
-
   <div class="actions">
     <button class="sec" onclick="resetPhoto()">Nouvelle Photo</button>
     <button class="primary" onclick="exportCard()">Exporter</button>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     ONGLET 2 — HAÏKUS
-     ══════════════════════════════════════ -->
+<!-- ONGLET 2 — HAÏKUS -->
 <div class="tab-content" id="tab-haiku">
-
   <p class="hint">
     Choisissez un format Instagram, tapez votre haïku et exportez.<br>
-    Pour le format Reel, ajoutez plusieurs slides.
+    Pour le Reel, ajoutez plusieurs slides — importez-les ensuite dans CapCut ou en carrousel.
   </p>
-
   <div class="controls">
     <label>Format
       <select id="haikuFormat" onchange="updateHaikuFormat()">
@@ -430,7 +404,7 @@
       </select>
     </label>
     <label>Taille du texte
-      <input type="number" id="haikuFontSize" value="22" min="10" max="60" step="1" style="width:60px">
+      <input type="number" id="haikuFontSize" value="42" min="10" max="80" step="1" style="width:60px">
     </label>
     <label>Export
       <select id="haikuExportFormat">
@@ -440,33 +414,25 @@
       </select>
     </label>
   </div>
-
-  <!-- Mode single -->
   <div id="haikuSingle">
     <div class="haiku-preview-wrap" id="haikuPreview">
       <textarea class="haiku-text" id="haikuText" rows="3" placeholder="votre haïku ici…"></textarea>
     </div>
   </div>
-
-  <!-- Mode reel (multi-slides) -->
   <div id="haikuReel" class="hidden">
     <div class="slides-container" id="slidesContainer"></div>
-    <button class="add-slide-btn" onclick="addSlide()">+ Ajouter un slide</button>
+    <button class="add-slide-btn" onclick="addSlide()">+ Ajouter un Slide</button>
   </div>
-
   <div class="actions">
     <button class="primary" onclick="exportHaiku()">Exporter</button>
   </div>
 </div>
 
 <p class="footer">Départementales Magazine</p>
-
 <input type="file" id="photoInput" accept="image/*" class="hidden">
 
 <script>
-/* ══════════════════════════════════════
-   ONGLETS
-   ══════════════════════════════════════ */
+/* ══ ONGLETS ══ */
 function switchTab(tab) {
   document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
@@ -474,106 +440,76 @@ function switchTab(tab) {
   document.querySelector(`.tab-btn[onclick="switchTab('${tab}')"]`).classList.add('active');
 }
 
-/* ══════════════════════════════════════
-   ACCENTS SUR MAJUSCULES (partagé)
-   ══════════════════════════════════════ */
+/* ══ ACCENTS MAJUSCULES ══ */
 const ACCENT_MAP = {
-  'É': { base: 'E', type: 'acute' },
-  'È': { base: 'E', type: 'grave' },
-  'Ê': { base: 'E', type: 'circumflex' },
-  'Ë': { base: 'E', type: 'diaeresis' },
-  'À': { base: 'A', type: 'grave' },
-  'Á': { base: 'A', type: 'acute' },
-  'Â': { base: 'A', type: 'circumflex' },
-  'Ù': { base: 'U', type: 'grave' },
-  'Ú': { base: 'U', type: 'acute' },
-  'Û': { base: 'U', type: 'circumflex' },
-  'Ü': { base: 'U', type: 'diaeresis' },
-  'Ô': { base: 'O', type: 'circumflex' },
-  'Ö': { base: 'O', type: 'diaeresis' },
-  'Î': { base: 'I', type: 'circumflex' },
-  'Ï': { base: 'I', type: 'diaeresis' },
-  'Ç': { base: 'C', type: 'cedilla' },
+  'É':{base:'E',type:'acute'},'È':{base:'E',type:'grave'},'Ê':{base:'E',type:'circumflex'},'Ë':{base:'E',type:'diaeresis'},
+  'À':{base:'A',type:'grave'},'Á':{base:'A',type:'acute'},'Â':{base:'A',type:'circumflex'},
+  'Ù':{base:'U',type:'grave'},'Ú':{base:'U',type:'acute'},'Û':{base:'U',type:'circumflex'},'Ü':{base:'U',type:'diaeresis'},
+  'Ô':{base:'O',type:'circumflex'},'Ö':{base:'O',type:'diaeresis'},
+  'Î':{base:'I',type:'circumflex'},'Ï':{base:'I',type:'diaeresis'},
+  'Ç':{base:'C',type:'cedilla'},
 };
 
 function drawAccent(ctx, type, cx, top, fontSize) {
   const s = fontSize * 0.18;
-  ctx.save();
-  ctx.lineWidth = fontSize * 0.045;
-  ctx.lineCap = 'round';
-  ctx.strokeStyle = ctx.fillStyle;
+  ctx.save(); ctx.lineWidth = fontSize * 0.045; ctx.lineCap = 'round'; ctx.strokeStyle = ctx.fillStyle;
   switch (type) {
-    case 'acute':
-      ctx.beginPath(); ctx.moveTo(cx - s*0.4, top - s*0.2); ctx.lineTo(cx + s*0.5, top - s*1.2); ctx.stroke(); break;
-    case 'grave':
-      ctx.beginPath(); ctx.moveTo(cx + s*0.4, top - s*0.2); ctx.lineTo(cx - s*0.5, top - s*1.2); ctx.stroke(); break;
-    case 'circumflex':
-      ctx.beginPath(); ctx.moveTo(cx - s*0.7, top - s*0.1); ctx.lineTo(cx, top - s*1.2); ctx.lineTo(cx + s*0.7, top - s*0.1); ctx.stroke(); break;
+    case 'acute': ctx.beginPath(); ctx.moveTo(cx-s*0.4,top-s*0.2); ctx.lineTo(cx+s*0.5,top-s*1.2); ctx.stroke(); break;
+    case 'grave': ctx.beginPath(); ctx.moveTo(cx+s*0.4,top-s*0.2); ctx.lineTo(cx-s*0.5,top-s*1.2); ctx.stroke(); break;
+    case 'circumflex': ctx.beginPath(); ctx.moveTo(cx-s*0.7,top-s*0.1); ctx.lineTo(cx,top-s*1.2); ctx.lineTo(cx+s*0.7,top-s*0.1); ctx.stroke(); break;
     case 'diaeresis':
-      const r = fontSize * 0.035;
-      ctx.beginPath(); ctx.arc(cx - s*0.45, top - s*0.5, r, 0, Math.PI*2); ctx.fill();
-      ctx.beginPath(); ctx.arc(cx + s*0.45, top - s*0.5, r, 0, Math.PI*2); ctx.fill(); break;
-    case 'cedilla':
-      ctx.beginPath(); ctx.moveTo(cx, top + fontSize*0.95); ctx.lineTo(cx + s*0.2, top + fontSize*1.05); ctx.lineTo(cx - s*0.3, top + fontSize*1.2); ctx.stroke(); break;
+      const r=fontSize*0.035;
+      ctx.beginPath(); ctx.arc(cx-s*0.45,top-s*0.5,r,0,Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(cx+s*0.45,top-s*0.5,r,0,Math.PI*2); ctx.fill(); break;
+    case 'cedilla': ctx.beginPath(); ctx.moveTo(cx,top+fontSize*0.95); ctx.lineTo(cx+s*0.2,top+fontSize*1.05); ctx.lineTo(cx-s*0.3,top+fontSize*1.2); ctx.stroke(); break;
   }
   ctx.restore();
 }
 
 function drawLineWithAccents(ctx, line, centerX, centerY, fontSize) {
   const upper = line.toUpperCase();
-  let clean = '';
-  const accents = [];
+  let clean = ''; const accents = [];
   for (let i = 0; i < upper.length; i++) {
     const ch = upper[i];
-    if (ACCENT_MAP[ch]) {
-      clean += ACCENT_MAP[ch].base;
-      accents.push({ index: i, type: ACCENT_MAP[ch].type });
-    } else {
-      clean += ch;
-    }
+    if (ACCENT_MAP[ch]) { clean += ACCENT_MAP[ch].base; accents.push({index:i,type:ACCENT_MAP[ch].type}); }
+    else { clean += ch; }
   }
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
   ctx.fillText(clean, centerX, centerY);
   if (accents.length === 0) return;
   const totalW = ctx.measureText(clean).width;
   const startX = centerX - totalW / 2;
   ctx.textAlign = 'left';
   for (const acc of accents) {
-    const prefix = clean.substring(0, acc.index);
-    const prefixW = ctx.measureText(prefix).width;
+    const prefixW = ctx.measureText(clean.substring(0, acc.index)).width;
     const charW = ctx.measureText(clean[acc.index]).width;
-    const charCenterX = startX + prefixW + charW / 2;
-    const charTop = centerY - fontSize * 0.35;
-    drawAccent(ctx, acc.type, charCenterX, charTop, fontSize);
+    drawAccent(ctx, acc.type, startX + prefixW + charW/2, centerY - fontSize*0.35, fontSize);
   }
   ctx.textAlign = 'center';
 }
 
-/* ══════════════════════════════════════
-   ONGLET 1 — CARTE POSTALE
-   ══════════════════════════════════════ */
+/* ══ CARTE POSTALE ══ */
 const CARD_W = 1050, CARD_H = 1480;
 const PHOTO_H = Math.round(CARD_H * 0.6);
-const TEXT_H  = CARD_H - PHOTO_H;
+const TEXT_H = CARD_H - PHOTO_H;
+const MARGIN_H = 12;
 
-const photoZone  = document.getElementById('photoZone');
-const mainText   = document.getElementById('mainText');
+const photoZone = document.getElementById('photoZone');
+const mainText = document.getElementById('mainText');
 const photoInput = document.getElementById('photoInput');
-const dropLabel  = document.getElementById('dropLabel');
+const dropLabel = document.getElementById('dropLabel');
 
 let photoImg = null, photoScale = 1, photoX = 0, photoY = 0, dragStart = null;
 
 const timbreImg = new Image(); timbreImg.src = './timbre.png';
-const logoImg   = new Image(); logoImg.src   = './logo.png';
+const logoImg = new Image(); logoImg.src = './logo.png';
+const logoBlancImg = new Image(); logoBlancImg.src = './logo-blanc.jpg';
 
 photoZone.addEventListener('click', () => { if (!photoImg) photoInput.click(); });
 photoInput.addEventListener('change', (e) => { if (e.target.files[0]) loadPhoto(e.target.files[0]); });
 
 const cardWrap = document.getElementById('cardWrap');
-['dragenter','dragover'].forEach(ev =>
-  cardWrap.addEventListener(ev, (e) => { e.preventDefault(); e.stopPropagation(); })
-);
+['dragenter','dragover'].forEach(ev => cardWrap.addEventListener(ev, (e) => { e.preventDefault(); e.stopPropagation(); }));
 cardWrap.addEventListener('drop', (e) => {
   e.preventDefault(); e.stopPropagation();
   const f = e.dataTransfer.files[0];
@@ -599,45 +535,35 @@ function renderPhoto() {
   dropLabel.style.display = 'none';
   const el = document.createElement('img');
   el.src = photoImg.src;
-  el.style.width  = (photoImg.width  * photoScale) + 'px';
+  el.style.width = (photoImg.width * photoScale) + 'px';
   el.style.height = (photoImg.height * photoScale) + 'px';
-  el.style.left   = photoX + 'px';
-  el.style.top    = photoY + 'px';
+  el.style.left = photoX + 'px';
+  el.style.top = photoY + 'px';
   photoZone.appendChild(el);
 }
 
 photoZone.addEventListener('mousedown', (e) => {
-  if (!photoImg) return;
-  e.preventDefault();
+  if (!photoImg) return; e.preventDefault();
   dragStart = { x: e.clientX - photoX, y: e.clientY - photoY };
   photoZone.classList.add('dragging');
 });
 window.addEventListener('mousemove', (e) => {
   if (!dragStart) return;
-  photoX = e.clientX - dragStart.x;
-  photoY = e.clientY - dragStart.y;
+  photoX = e.clientX - dragStart.x; photoY = e.clientY - dragStart.y;
   renderPhoto();
 });
-window.addEventListener('mouseup', () => {
-  dragStart = null;
-  photoZone.classList.remove('dragging');
-});
+window.addEventListener('mouseup', () => { dragStart = null; photoZone.classList.remove('dragging'); });
 
 photoZone.addEventListener('wheel', (e) => {
-  if (!photoImg) return;
-  e.preventDefault();
+  if (!photoImg) return; e.preventDefault();
   const d = e.deltaY > 0 ? 0.95 : 1.05;
   const r = photoZone.getBoundingClientRect();
   const mx = e.clientX - r.left, my = e.clientY - r.top;
-  photoX = mx - (mx - photoX) * d;
-  photoY = my - (my - photoY) * d;
-  photoScale *= d;
-  renderPhoto();
+  photoX = mx - (mx - photoX) * d; photoY = my - (my - photoY) * d;
+  photoScale *= d; renderPhoto();
 }, { passive: false });
 
-document.getElementById('fontSize').addEventListener('input', (e) => {
-  mainText.style.fontSize = e.target.value + 'px';
-});
+document.getElementById('fontSize').addEventListener('input', (e) => { mainText.style.fontSize = e.target.value + 'px'; });
 
 function exportCard() {
   const canvas = document.createElement('canvas');
@@ -646,23 +572,28 @@ function exportCard() {
   const dispW = photoZone.offsetWidth, dispH = photoZone.offsetHeight;
   const rx = CARD_W / dispW, ry = PHOTO_H / dispH;
 
+  // Photo
   if (photoImg) {
     ctx.drawImage(photoImg, photoX*rx, photoY*ry, photoImg.width*photoScale*rx, photoImg.height*photoScale*ry);
   } else {
     ctx.fillStyle = '#e2dac4'; ctx.fillRect(0, 0, CARD_W, PHOTO_H);
   }
 
-  ctx.fillStyle = '#fef5e3'; ctx.fillRect(0, PHOTO_H, CARD_W, TEXT_H);
+  // Marge blanche
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, PHOTO_H - MARGIN_H, CARD_W, MARGIN_H * 2);
 
-  const grad = ctx.createLinearGradient(CARD_W*0.1, 0, CARD_W*0.9, 0);
-  grad.addColorStop(0, 'transparent'); grad.addColorStop(0.5, '#c8b88a'); grad.addColorStop(1, 'transparent');
-  ctx.fillStyle = grad; ctx.fillRect(CARD_W*0.1, PHOTO_H, CARD_W*0.8, 1);
+  // Fond zone texte
+  ctx.fillStyle = '#fef5e3';
+  ctx.fillRect(0, PHOTO_H + MARGIN_H, CARD_W, TEXT_H - MARGIN_H);
 
+  // Timbre
   if (timbreImg.complete && timbreImg.naturalWidth > 0) {
     const sh = 140, sw = (timbreImg.naturalWidth / timbreImg.naturalHeight) * sh;
-    ctx.drawImage(timbreImg, CARD_W - sw - 24, PHOTO_H + 20, sw, sh);
+    ctx.drawImage(timbreImg, CARD_W - sw - 24, PHOTO_H + MARGIN_H + 10, sw, sh);
   }
 
+  // Texte
   const fs = parseInt(document.getElementById('fontSize').value) || 15;
   const realFS = fs * rx;
   ctx.fillStyle = '#1b3c87';
@@ -670,11 +601,14 @@ function exportCard() {
   const lines = mainText.value.split('\n');
   const lineH = realFS * 1.7;
   const totalH = lines.length * lineH;
-  const startY = PHOTO_H + (TEXT_H - totalH) / 2 - 20 * rx;
+  const textZoneTop = PHOTO_H + MARGIN_H;
+  const textZoneH = TEXT_H - MARGIN_H;
+  const startY = textZoneTop + (textZoneH - totalH) / 2;
   lines.forEach((line, i) => {
     drawLineWithAccents(ctx, line, CARD_W / 2, startY + i * lineH + lineH / 2, realFS);
   });
 
+  // Logo carte postale
   if (logoImg.complete && logoImg.naturalWidth > 0) {
     const lh = 76, lw = (logoImg.naturalWidth / logoImg.naturalHeight) * lh;
     ctx.globalAlpha = 0.85;
@@ -685,22 +619,16 @@ function exportCard() {
   downloadCanvas(canvas, 'carte-postale', document.getElementById('exportFormat').value);
 }
 
-function resetPhoto() {
-  photoImg = null; photoScale = 1; photoX = 0; photoY = 0;
-  renderPhoto();
-}
+function resetPhoto() { photoImg = null; photoScale = 1; photoX = 0; photoY = 0; renderPhoto(); }
 
-/* ══════════════════════════════════════
-   ONGLET 2 — HAÏKUS
-   ══════════════════════════════════════ */
+/* ══ HAÏKUS ══ */
 const HAIKU_FORMATS = {
-  story:      { w: 1080, h: 1920, label: 'Story' },
-  square:     { w: 1080, h: 1080, label: 'Carré' },
-  horizontal: { w: 1080, h: 566,  label: 'Horizontal' },
-  vertical:   { w: 1080, h: 1350, label: 'Vertical' },
-  reel:       { w: 1080, h: 1920, label: 'Reel' },
+  story: { w: 1080, h: 1920 },
+  square: { w: 1080, h: 1080 },
+  horizontal: { w: 1080, h: 566 },
+  vertical: { w: 1080, h: 1350 },
+  reel: { w: 1080, h: 1920 },
 };
-
 const MAX_PREVIEW_H = 600;
 let reelSlides = [];
 
@@ -709,27 +637,23 @@ function updateHaikuFormat() {
   const isReel = fmt === 'reel';
   document.getElementById('haikuSingle').classList.toggle('hidden', isReel);
   document.getElementById('haikuReel').classList.toggle('hidden', !isReel);
-
   if (!isReel) {
     const dim = HAIKU_FORMATS[fmt];
     const scale = Math.min(500 / dim.w, MAX_PREVIEW_H / dim.h);
-    const pw = Math.round(dim.w * scale);
-    const ph = Math.round(dim.h * scale);
     const preview = document.getElementById('haikuPreview');
-    preview.style.width = pw + 'px';
-    preview.style.height = ph + 'px';
+    preview.style.width = Math.round(dim.w * scale) + 'px';
+    preview.style.height = Math.round(dim.h * scale) + 'px';
   } else {
     if (reelSlides.length === 0) { addSlide(); addSlide(); }
   }
 }
 
 function addSlide() {
-  const idx = reelSlides.length + 1;
   const div = document.createElement('div');
   div.className = 'slide-card';
   div.innerHTML = `
-    <div class="slide-label">Slide ${idx}</div>
-    <textarea rows="3" placeholder="haïku du slide ${idx}…"></textarea>
+    <div class="slide-label">Slide</div>
+    <textarea rows="3" placeholder="haïku…"></textarea>
     <button class="remove-slide" onclick="removeSlide(this)" title="Supprimer">×</button>
   `;
   document.getElementById('slidesContainer').appendChild(div);
@@ -746,15 +670,13 @@ function removeSlide(btn) {
 }
 
 function renumberSlides() {
-  reelSlides.forEach((s, i) => {
-    s.querySelector('.slide-label').textContent = `Slide ${i + 1}`;
-  });
+  reelSlides.forEach((s, i) => { s.querySelector('.slide-label').textContent = `Slide ${i + 1}`; });
 }
 
 function exportHaiku() {
   const fmt = document.getElementById('haikuFormat').value;
   const dim = HAIKU_FORMATS[fmt];
-  const fs = parseInt(document.getElementById('haikuFontSize').value) || 22;
+  const fs = parseInt(document.getElementById('haikuFontSize').value) || 42;
   const expFmt = document.getElementById('haikuExportFormat').value;
 
   if (fmt === 'reel') {
@@ -781,29 +703,30 @@ function renderHaikuCanvas(w, h, text, fontSize) {
   ctx.fillStyle = '#ffffff';
   ctx.fillRect(0, 0, w, h);
 
-  // Texte
+  // Texte centré
   ctx.fillStyle = '#1b3c87';
   ctx.font = `${fontSize}px Choupinet, Courier New, monospace`;
-
   const lines = text.split('\n');
   const lineH = fontSize * 2;
   const totalH = lines.length * lineH;
   const startY = (h - totalH) / 2;
-
   lines.forEach((line, i) => {
-    const cy = startY + i * lineH + lineH / 2;
-    drawLineWithAccents(ctx, line, w / 2, cy, fontSize);
+    drawLineWithAccents(ctx, line, w / 2, startY + i * lineH + lineH / 2, fontSize);
   });
+
+  // Logo blanc en bas
+  if (logoBlancImg.complete && logoBlancImg.naturalWidth > 0) {
+    const lh = 60, lw = (logoBlancImg.naturalWidth / logoBlancImg.naturalHeight) * lh;
+    ctx.drawImage(logoBlancImg, (w - lw) / 2, h - lh - 20, lw, lh);
+  }
 
   return canvas;
 }
 
-/* ══════════════════════════════════════
-   UTILITAIRES
-   ══════════════════════════════════════ */
+/* ══ UTILITAIRES ══ */
 function downloadCanvas(canvas, name, fmt) {
   const mime = fmt === 'jpeg' ? 'image/jpeg' : fmt === 'webp' ? 'image/webp' : 'image/png';
-  const ext  = fmt === 'jpeg' ? 'jpg' : fmt;
+  const ext = fmt === 'jpeg' ? 'jpg' : fmt;
   canvas.toBlob((blob) => {
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
@@ -813,7 +736,6 @@ function downloadCanvas(canvas, name, fmt) {
   }, mime, fmt === 'png' ? undefined : 0.92);
 }
 
-// Init haiku preview
 updateHaikuFormat();
 </script>
 </body>
