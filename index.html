@@ -8,14 +8,12 @@
   @font-face {
     font-family: 'Choupinet';
     src: url('./fonts/Choupinet-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+    font-weight: normal; font-style: normal;
   }
   @font-face {
     font-family: 'Departementales';
     src: url('./fonts/Departementales-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+    font-weight: normal; font-style: normal;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -24,119 +22,46 @@
     font-family: 'Times New Roman', Times, serif;
     background: #faf6ec;
     color: #1b3c87;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 40px 24px;
-    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 40px 24px; min-height: 100vh;
   }
 
-  h1 {
-    font-size: 1.6rem;
-    font-weight: normal;
-    letter-spacing: 0.04em;
-    margin-bottom: 4px;
-  }
-  .tagline {
-    font-size: 0.9rem;
-    font-style: italic;
-    color: #8a7a5a;
-    margin-bottom: 24px;
-    letter-spacing: 0.06em;
-  }
+  h1 { font-size: 1.6rem; font-weight: normal; letter-spacing: 0.04em; margin-bottom: 4px; }
+  .tagline { font-size: 0.9rem; font-style: italic; color: #8a7a5a; margin-bottom: 24px; letter-spacing: 0.06em; }
 
-  .tabs {
-    display: flex;
-    gap: 0;
-    margin-bottom: 24px;
-    border-bottom: 1px solid #d8ceae;
-  }
+  .tabs { display: flex; gap: 0; margin-bottom: 24px; border-bottom: 1px solid #d8ceae; }
   .tab-btn {
-    font-family: 'Times New Roman', Times, serif;
-    font-size: 0.9rem;
-    padding: 10px 28px;
-    background: transparent;
-    border: 1px solid #d8ceae;
-    border-bottom: none;
-    border-radius: 6px 6px 0 0;
-    cursor: pointer;
-    color: #8a7a5a;
-    transition: all 0.2s;
-    margin-bottom: -1px;
+    font-family: 'Times New Roman', Times, serif; font-size: 0.9rem;
+    padding: 10px 28px; background: transparent;
+    border: 1px solid #d8ceae; border-bottom: none;
+    border-radius: 6px 6px 0 0; cursor: pointer;
+    color: #8a7a5a; transition: all 0.2s; margin-bottom: -1px;
   }
-  .tab-btn.active {
-    background: #faf6ec;
-    color: #1b3c87;
-    border-bottom: 1px solid #faf6ec;
-    font-weight: bold;
-  }
+  .tab-btn.active { background: #faf6ec; color: #1b3c87; border-bottom: 1px solid #faf6ec; font-weight: bold; }
   .tab-btn:hover:not(.active) { background: #f0ead8; }
 
   .tab-content { display: none; flex-direction: column; align-items: center; }
   .tab-content.active { display: flex; }
 
-  .hint {
-    font-size: 0.82rem;
-    font-style: italic;
-    color: #333;
-    margin-bottom: 20px;
-    text-align: center;
-    line-height: 1.6;
-  }
-  kbd {
-    background: #f0ead8;
-    border: 1px solid #d8ceae;
-    border-radius: 3px;
-    padding: 1px 5px;
-    font-size: 0.75rem;
-    font-style: normal;
-    font-family: system-ui, sans-serif;
-    color: #7a6c4a;
-  }
+  .hint { font-size: 0.82rem; font-style: italic; color: #333; margin-bottom: 20px; text-align: center; line-height: 1.6; }
+  kbd { background: #f0ead8; border: 1px solid #d8ceae; border-radius: 3px; padding: 1px 5px; font-size: 0.75rem; font-style: normal; font-family: system-ui, sans-serif; color: #7a6c4a; }
 
-  .controls {
-    display: flex; flex-wrap: wrap; gap: 14px;
-    align-items: center; margin-bottom: 20px;
-    justify-content: center;
-  }
-  .controls label {
-    font-size: 0.82rem;
-    color: #333;
-    display: flex; align-items: center; gap: 6px;
-  }
+  .controls { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; margin-bottom: 20px; justify-content: center; }
+  .controls label { font-size: 0.82rem; color: #333; display: flex; align-items: center; gap: 6px; }
   .controls input[type="number"],
-  .controls select {
-    background: #fff;
-    color: #1b3c87;
-    border: 1px solid #d8ceae;
-    border-radius: 6px;
-    padding: 6px 10px;
-    font-size: 0.85rem;
-    font-family: system-ui, sans-serif;
-  }
+  .controls select { background: #fff; color: #1b3c87; border: 1px solid #d8ceae; border-radius: 6px; padding: 6px 10px; font-size: 0.85rem; font-family: system-ui, sans-serif; }
   .controls input[type="number"]:focus,
-  .controls select:focus {
-    outline: none;
-    border-color: #1b3c87;
-  }
+  .controls select:focus { outline: none; border-color: #1b3c87; }
 
-  /* ══════════════════════════════════════
-     ONGLET 1 — CARTE POSTALE
-     ══════════════════════════════════════ */
+  /* ══ CARTE POSTALE ══ */
   .canvas-wrap {
-    position: relative;
-    width: 525px;
-    height: 740px;
-    border: 1px solid #d8ceae;
-    border-radius: 4px;
-    overflow: hidden;
-    background: #fef5e3;
-    box-shadow: 0 4px 20px rgba(139, 122, 90, 0.12);
+    position: relative; width: 525px; height: 740px;
+    border: 1px solid #d8ceae; border-radius: 4px; overflow: hidden;
+    background: #fef5e3; box-shadow: 0 4px 20px rgba(139, 122, 90, 0.12);
   }
 
   .photo-zone {
-    position: absolute; top: 0; left: 0;
-    width: 100%; height: 59%;
+    position: absolute; top: 0; left: 0; width: 100%; height: 59%;
     overflow: hidden;
     background-image:
       linear-gradient(45deg, #d8d0b8 25%, transparent 25%),
@@ -147,208 +72,76 @@
     background-position: 0 0, 0 10px, 10px -10px, -10px 0;
     background-color: #e2dac4;
     display: flex; align-items: center; justify-content: center;
-    cursor: grab;
-    border-bottom: 6px solid #fff;
+    cursor: grab; border-bottom: 6px solid #fff;
   }
   .photo-zone.dragging { cursor: grabbing; }
-  .photo-zone img {
-    position: absolute;
-    pointer-events: none;
-    user-select: none;
-    -webkit-user-drag: none;
-  }
-  .drop-label {
-    color: #333;
-    font-family: 'Times New Roman', Times, serif;
-    font-size: 0.9rem;
-    font-style: italic;
-    pointer-events: none;
-    text-align: center;
-    line-height: 1.8;
-  }
+  .photo-zone img { position: absolute; pointer-events: none; user-select: none; -webkit-user-drag: none; }
+  .drop-label { color: #333; font-family: 'Times New Roman', Times, serif; font-size: 0.9rem; font-style: italic; pointer-events: none; text-align: center; line-height: 1.8; }
 
   .text-zone {
-    position: absolute; bottom: 0; left: 0;
-    width: 100%; height: 40%;
-    background: #fef5e3;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    padding: 20px 32px;
-    overflow: hidden;
+    position: absolute; bottom: 0; left: 0; width: 100%; height: 40%;
+    background: #fef5e3; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; padding: 20px 32px; overflow: hidden;
   }
 
-  .stamp {
-    position: absolute; top: 10px; right: 10px;
-    width: 56px; height: 66px;
-    overflow: hidden;
-  }
+  .stamp { position: absolute; top: 10px; right: 10px; width: 56px; height: 66px; overflow: hidden; }
   .stamp img { width: 100%; height: 100%; object-fit: contain; }
 
   .main-text {
     font-family: 'Departementales', 'Choupinet', 'Courier New', monospace;
-    color: #1b3c87;
-    font-size: 18px;
-    text-align: left;
-    line-height: 1.7;
-    text-transform: uppercase;
-    width: 80%;
-    margin: 0 auto;
-    resize: none;
-    border: none;
-    background: transparent;
-    outline: none;
-    min-height: 70px;
+    color: #1b3c87; font-size: 30px; text-align: center; line-height: 1.36;
+    text-transform: uppercase; width: 90%; margin: 0 auto;
+    resize: none; border: none; background: transparent; outline: none; min-height: 70px;
   }
-  .main-text::placeholder {
-    color: #333;
-    font-family: 'Times New Roman', Times, serif;
-    font-style: italic;
-    text-transform: none;
-    opacity: 0.5;
-  }
+  .main-text::placeholder { color: #333; font-family: 'Times New Roman', Times, serif; font-style: italic; text-transform: none; opacity: 0.5; }
 
-  .logo-bottom {
-    position: absolute; bottom: 6px; left: 50%;
-    transform: translateX(-50%);
-    height: 36px;
-    opacity: 0.85;
-  }
+  .logo-bottom { position: absolute; bottom: 6px; left: 50%; transform: translateX(-50%); height: 36px; opacity: 0.85; }
   .logo-bottom img { height: 100%; object-fit: contain; }
 
-  /* ══════════════════════════════════════
-     ONGLET 2 — HAÏKUS
-     ══════════════════════════════════════ */
+  /* ══ HAÏKUS ══ */
   .haiku-preview-wrap {
-    border: 1px solid #d8ceae;
-    border-radius: 4px;
-    overflow: hidden;
-    box-shadow: 0 4px 20px rgba(139, 122, 90, 0.12);
-    background: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
+    border: 1px solid #d8ceae; border-radius: 4px; overflow: hidden;
+    box-shadow: 0 4px 20px rgba(139, 122, 90, 0.12); background: #fff;
+    display: flex; align-items: center; justify-content: center; position: relative;
   }
 
   .haiku-text {
     font-family: 'Departementales', 'Choupinet', 'Courier New', monospace;
-    color: #1b3c87;
-    font-size: 28px;
-    text-align: left;
-    line-height: 2;
-    text-transform: uppercase;
-    width: 80%;
-    margin: 0 auto;
-    resize: none;
-    border: none;
-    background: transparent;
-    outline: none;
-    min-height: 80px;
+    color: #1b3c87; font-size: 28px; text-align: left; line-height: 2;
+    text-transform: uppercase; width: 80%; margin: 0 auto;
+    resize: none; border: none; background: transparent; outline: none; min-height: 80px;
   }
-  .haiku-text::placeholder {
-    color: #999;
-    font-family: 'Times New Roman', Times, serif;
-    font-style: italic;
-    text-transform: none;
-    opacity: 0.6;
-  }
+  .haiku-text::placeholder { color: #999; font-family: 'Times New Roman', Times, serif; font-style: italic; text-transform: none; opacity: 0.6; }
 
   .slides-container { width: 100%; max-width: 500px; }
-  .slide-card {
-    background: #fff;
-    border: 1px solid #d8ceae;
-    border-radius: 6px;
-    padding: 16px;
-    margin-bottom: 12px;
-    position: relative;
-  }
-  .slide-card .slide-label {
-    font-size: 0.75rem;
-    color: #8a7a5a;
-    margin-bottom: 8px;
-  }
+  .slide-card { background: #fff; border: 1px solid #d8ceae; border-radius: 6px; padding: 16px; margin-bottom: 12px; position: relative; }
+  .slide-card .slide-label { font-size: 0.75rem; color: #8a7a5a; margin-bottom: 8px; }
   .slide-card textarea {
     font-family: 'Departementales', 'Choupinet', 'Courier New', monospace;
-    color: #1b3c87;
-    font-size: 20px;
-    text-align: left;
-    line-height: 2;
-    text-transform: uppercase;
-    width: 100%;
-    resize: none;
-    border: 1px solid #e8e0c8;
-    border-radius: 4px;
-    background: #fafafa;
-    outline: none;
-    padding: 12px;
-    min-height: 70px;
+    color: #1b3c87; font-size: 20px; text-align: left; line-height: 2;
+    text-transform: uppercase; width: 100%; resize: none;
+    border: 1px solid #e8e0c8; border-radius: 4px; background: #fafafa;
+    outline: none; padding: 12px; min-height: 70px;
   }
-  .slide-card textarea::placeholder {
-    color: #999;
-    font-family: 'Times New Roman', Times, serif;
-    font-style: italic;
-    text-transform: none;
-  }
-  .remove-slide {
-    position: absolute; top: 8px; right: 10px;
-    background: none; border: none; color: #c8a8a8;
-    cursor: pointer; font-size: 1.1rem; padding: 2px 6px;
-  }
+  .slide-card textarea::placeholder { color: #999; font-family: 'Times New Roman', Times, serif; font-style: italic; text-transform: none; }
+  .remove-slide { position: absolute; top: 8px; right: 10px; background: none; border: none; color: #c8a8a8; cursor: pointer; font-size: 1.1rem; padding: 2px 6px; }
   .remove-slide:hover { color: #a55; }
 
   .add-slide-btn {
-    font-family: 'Times New Roman', Times, serif;
-    font-size: 0.82rem;
-    color: #8a7a5a;
-    background: transparent;
-    border: 1px dashed #d8ceae;
-    border-radius: 6px;
-    padding: 10px;
-    width: 100%;
-    cursor: pointer;
-    transition: all 0.2s;
-    margin-bottom: 12px;
+    font-family: 'Times New Roman', Times, serif; font-size: 0.82rem; color: #8a7a5a;
+    background: transparent; border: 1px dashed #d8ceae; border-radius: 6px;
+    padding: 10px; width: 100%; cursor: pointer; transition: all 0.2s; margin-bottom: 12px;
   }
   .add-slide-btn:hover { background: #f0ead8; color: #1b3c87; }
 
-  .actions {
-    margin-top: 24px;
-    display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;
-  }
-  button.primary {
-    font-family: 'Times New Roman', Times, serif;
-    font-size: 0.85rem;
-    background: #1b3c87;
-    color: #faf6ec;
-    border: 1px solid #1b3c87;
-    border-radius: 6px;
-    padding: 10px 24px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
+  .actions { margin-top: 24px; display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+  button.primary { font-family: 'Times New Roman', Times, serif; font-size: 0.85rem; background: #1b3c87; color: #faf6ec; border: 1px solid #1b3c87; border-radius: 6px; padding: 10px 24px; cursor: pointer; transition: all 0.2s; }
   button.primary:hover { background: #15306d; }
-  button.sec {
-    font-family: 'Times New Roman', Times, serif;
-    font-size: 0.85rem;
-    background: transparent;
-    color: #8a7a5a;
-    border: 1px solid #d8ceae;
-    border-radius: 6px;
-    padding: 10px 24px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
+  button.sec { font-family: 'Times New Roman', Times, serif; font-size: 0.85rem; background: transparent; color: #8a7a5a; border: 1px solid #d8ceae; border-radius: 6px; padding: 10px 24px; cursor: pointer; transition: all 0.2s; }
   button.sec:hover { background: #f0ead8; color: #1b3c87; }
 
   .hidden { display: none; }
-
-  .footer {
-    margin-top: 32px;
-    font-size: 0.7rem;
-    color: #b8aa88;
-    letter-spacing: 0.03em;
-    font-style: italic;
-  }
+  .footer { margin-top: 32px; font-size: 0.7rem; color: #b8aa88; letter-spacing: 0.03em; font-style: italic; }
 </style>
 </head>
 <body>
@@ -375,7 +168,7 @@
       </select>
     </label>
     <label>Taille du texte
-      <input type="number" id="fontSize" value="18" min="8" max="50" step="1" style="width:60px">
+      <input type="number" id="fontSize" value="30" min="8" max="60" step="1" style="width:60px">
     </label>
     <label>Format
       <select id="exportFormat">
@@ -460,17 +253,11 @@ function switchTab(tab) {
   document.querySelector(`.tab-btn[onclick="switchTab('${tab}')"]`).classList.add('active');
 }
 
-/* ══ POLICES — mise à jour preview ══ */
-function getCanvasFont(selectId) {
-  const val = document.getElementById(selectId).value;
-  return val + ", 'Courier New', monospace";
-}
-
+/* ══ POLICES ══ */
 function updateCarteFont() {
   const font = document.getElementById('carteFont').value;
   document.getElementById('mainText').style.fontFamily = font + ", 'Courier New', monospace";
 }
-
 function updateHaikuFont() {
   const font = document.getElementById('haikuFont').value;
   const ff = font + ", 'Courier New', monospace";
@@ -523,8 +310,6 @@ function drawLineLeftAligned(ctx, line, leftX, centerY, fontSize) {
 
 function drawTextBlock(ctx, text, canvasW, centerY, fontSize, lineH) {
   const lines = text.split('\n');
-
-  // Mesurer chaque ligne pour trouver la plus large
   let maxW = 0;
   const prepared = lines.map(line => {
     const upper = line.toUpperCase();
@@ -536,15 +321,11 @@ function drawTextBlock(ctx, text, canvasW, centerY, fontSize, lineH) {
     if (w > maxW) maxW = w;
     return line;
   });
-
-  // Bloc centré horizontalement, texte aligné à gauche dedans
   const blockLeft = (canvasW - maxW) / 2;
   const totalH = lines.length * lineH;
   const startY = centerY - totalH / 2;
-
   prepared.forEach((line, i) => {
-    const cy = startY + i * lineH + lineH / 2;
-    drawLineLeftAligned(ctx, line, blockLeft, cy, fontSize);
+    drawLineLeftAligned(ctx, line, blockLeft, startY + i * lineH + lineH / 2, fontSize);
   });
 }
 
@@ -633,37 +414,31 @@ function exportCard() {
   const rx = CARD_W / dispW, ry = PHOTO_H / dispH;
   const fontName = document.getElementById('carteFont').value;
 
-  // Photo
   if (photoImg) {
     ctx.drawImage(photoImg, photoX*rx, photoY*ry, photoImg.width*photoScale*rx, photoImg.height*photoScale*ry);
   } else {
     ctx.fillStyle = '#e2dac4'; ctx.fillRect(0, 0, CARD_W, PHOTO_H);
   }
 
-  // Marge blanche
   ctx.fillStyle = '#ffffff';
   ctx.fillRect(0, PHOTO_H - MARGIN_H, CARD_W, MARGIN_H * 2);
 
-  // Fond zone texte
   ctx.fillStyle = '#fef5e3';
   ctx.fillRect(0, PHOTO_H + MARGIN_H, CARD_W, TEXT_H - MARGIN_H);
 
-  // Timbre
   if (timbreImg.complete && timbreImg.naturalWidth > 0) {
     const sh = 140, sw = (timbreImg.naturalWidth / timbreImg.naturalHeight) * sh;
     ctx.drawImage(timbreImg, CARD_W - sw - 24, PHOTO_H + MARGIN_H + 10, sw, sh);
   }
 
-  // Texte
-  const fs = parseInt(document.getElementById('fontSize').value) || 18;
+  const fs = parseInt(document.getElementById('fontSize').value) || 30;
   const realFS = fs * rx;
   ctx.fillStyle = '#1b3c87';
   ctx.font = `${realFS}px ${fontName}, 'Courier New', monospace`;
-  const lineH = realFS * 1.7;
+  const lineH = realFS * 1.36;
   const textCenterY = PHOTO_H + MARGIN_H + (TEXT_H - MARGIN_H) / 2 - 20 * rx;
   drawTextBlock(ctx, mainText.value, CARD_W, textCenterY, realFS, lineH);
 
-  // Logo
   if (logoImg.complete && logoImg.naturalWidth > 0) {
     const lh = 76, lw = (logoImg.naturalWidth / logoImg.naturalHeight) * lh;
     ctx.globalAlpha = 0.85;
@@ -761,7 +536,7 @@ function renderHaikuCanvas(w, h, text, fontSize, fontName) {
 
   ctx.fillStyle = '#1b3c87';
   ctx.font = `${fontSize}px ${fontName}, 'Courier New', monospace`;
-  const lineH = fontSize * 2;
+  const lineH = fontSize * 1.6;
   drawTextBlock(ctx, text, w, h / 2, fontSize, lineH);
 
   if (logoBlancImg.complete && logoBlancImg.naturalWidth > 0) {
