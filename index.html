@@ -182,10 +182,11 @@
     font-family: 'Choupinet', 'Courier New', monospace;
     color: #1b3c87;
     font-size: 15px;
-    text-align: center;
+    text-align: left;
     line-height: 1.7;
     text-transform: uppercase;
-    width: 100%;
+    width: 80%;
+    margin: 0 auto;
     resize: none;
     border: none;
     background: transparent;
@@ -227,10 +228,11 @@
     font-family: 'Choupinet', 'Courier New', monospace;
     color: #1b3c87;
     font-size: 24px;
-    text-align: center;
+    text-align: left;
     line-height: 2;
     text-transform: uppercase;
     width: 80%;
+    margin: 0 auto;
     resize: none;
     border: none;
     background: transparent;
@@ -263,7 +265,7 @@
     font-family: 'Choupinet', 'Courier New', monospace;
     color: #1b3c87;
     font-size: 18px;
-    text-align: center;
+    text-align: left;
     line-height: 2;
     text-transform: uppercase;
     width: 100%;
@@ -466,7 +468,8 @@ function drawAccent(ctx, type, cx, top, fontSize) {
   ctx.restore();
 }
 
-function drawLineWithAccents(ctx, line, centerX, centerY, fontSize) {
+/* Dessine une ligne alignée à gauche avec accents */
+function drawLineLeftAligned(ctx, line, leftX, centerY, fontSize) {
   const upper = line.toUpperCase();
   let clean = ''; const accents = [];
   for (let i = 0; i < upper.length; i++) {
@@ -474,18 +477,40 @@ function drawLineWithAccents(ctx, line, centerX, centerY, fontSize) {
     if (ACCENT_MAP[ch]) { clean += ACCENT_MAP[ch].base; accents.push({index:i,type:ACCENT_MAP[ch].type}); }
     else { clean += ch; }
   }
-  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  ctx.fillText(clean, centerX, centerY);
-  if (accents.length === 0) return;
-  const totalW = ctx.measureText(clean).width;
-  const startX = centerX - totalW / 2;
-  ctx.textAlign = 'left';
+  ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+  ctx.fillText(clean, leftX, centerY);
   for (const acc of accents) {
     const prefixW = ctx.measureText(clean.substring(0, acc.index)).width;
     const charW = ctx.measureText(clean[acc.index]).width;
-    drawAccent(ctx, acc.type, startX + prefixW + charW/2, centerY - fontSize*0.35, fontSize);
+    drawAccent(ctx, acc.type, leftX + prefixW + charW/2, centerY - fontSize*0.35, fontSize);
   }
-  ctx.textAlign = 'center';
+}
+
+/* Dessine un bloc de texte aligné à gauche mais centré horizontalement */
+function drawTextBlock(ctx, text, canvasW, centerY, fontSize, lineH) {
+  const lines = text.split('\n');
+
+  // Mesurer la largeur max pour centrer le bloc
+  let maxW = 0;
+  const prepared = lines.map(line => {
+    const upper = line.toUpperCase();
+    let clean = '';
+    for (let i = 0; i < upper.length; i++) {
+      clean += ACCENT_MAP[upper[i]] ? ACCENT_MAP[upper[i]].base : upper[i];
+    }
+    const w = ctx.measureText(clean).width;
+    if (w > maxW) maxW = w;
+    return { raw: line, clean, w };
+  });
+
+  const blockLeft = (canvasW - maxW) / 2;
+  const totalH = lines.length * lineH;
+  const startY = centerY - totalH / 2;
+
+  prepared.forEach((l, i) => {
+    const cy = startY + i * lineH + lineH / 2;
+    drawLineLeftAligned(ctx, l.raw, blockLeft, cy, fontSize);
+  });
 }
 
 /* ══ CARTE POSTALE ══ */
@@ -593,20 +618,14 @@ function exportCard() {
     ctx.drawImage(timbreImg, CARD_W - sw - 24, PHOTO_H + MARGIN_H + 10, sw, sh);
   }
 
-  // Texte
+  // Texte — bloc aligné gauche, centré horizontalement
   const fs = parseInt(document.getElementById('fontSize').value) || 15;
   const realFS = fs * rx;
   ctx.fillStyle = '#1b3c87';
   ctx.font = `${realFS}px Choupinet, Courier New, monospace`;
-  const lines = mainText.value.split('\n');
   const lineH = realFS * 1.7;
-  const totalH = lines.length * lineH;
-  const textZoneTop = PHOTO_H + MARGIN_H;
-  const textZoneH = TEXT_H - MARGIN_H;
-  const startY = textZoneTop + (textZoneH - totalH) / 2;
-  lines.forEach((line, i) => {
-    drawLineWithAccents(ctx, line, CARD_W / 2, startY + i * lineH + lineH / 2, realFS);
-  });
+  const textCenterY = PHOTO_H + MARGIN_H + (TEXT_H - MARGIN_H) / 2 - 20 * rx;
+  drawTextBlock(ctx, mainText.value, CARD_W, textCenterY, realFS, lineH);
 
   // Logo carte postale
   if (logoImg.complete && logoImg.naturalWidth > 0) {
@@ -703,16 +722,11 @@ function renderHaikuCanvas(w, h, text, fontSize) {
   ctx.fillStyle = '#ffffff';
   ctx.fillRect(0, 0, w, h);
 
-  // Texte centré
+  // Texte — bloc aligné gauche, centré horizontalement
   ctx.fillStyle = '#1b3c87';
   ctx.font = `${fontSize}px Choupinet, Courier New, monospace`;
-  const lines = text.split('\n');
   const lineH = fontSize * 2;
-  const totalH = lines.length * lineH;
-  const startY = (h - totalH) / 2;
-  lines.forEach((line, i) => {
-    drawLineWithAccents(ctx, line, w / 2, startY + i * lineH + lineH / 2, fontSize);
-  });
+  drawTextBlock(ctx, text, w, h / 2, fontSize, lineH);
 
   // Logo blanc en bas
   if (logoBlancImg.complete && logoBlancImg.naturalWidth > 0) {
