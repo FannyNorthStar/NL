@@ -60,7 +60,6 @@
     color: #7a6c4a;
   }
 
-  /* ── Contrôles ── */
   .controls {
     display: flex; flex-wrap: wrap; gap: 14px;
     align-items: center; margin-bottom: 20px;
@@ -87,7 +86,6 @@
     border-color: #1b3c87;
   }
 
-  /* ── Carte ── */
   .canvas-wrap {
     position: relative;
     width: 525px;
@@ -99,7 +97,6 @@
     box-shadow: 0 4px 20px rgba(139, 122, 90, 0.12);
   }
 
-  /* ── Zone photo ── */
   .photo-zone {
     position: absolute; top: 0; left: 0;
     width: 100%; height: 60%;
@@ -132,7 +129,6 @@
     line-height: 1.8;
   }
 
-  /* ── Zone texte ── */
   .text-zone {
     position: absolute; bottom: 0; left: 0;
     width: 100%; height: 40%;
@@ -166,6 +162,7 @@
     font-size: 15px;
     text-align: center;
     line-height: 1.7;
+    text-transform: uppercase;
     width: 100%;
     resize: none;
     border: none;
@@ -177,6 +174,7 @@
     color: #333;
     font-family: 'Times New Roman', Times, serif;
     font-style: italic;
+    text-transform: none;
     opacity: 0.5;
   }
 
@@ -191,7 +189,6 @@
     object-fit: contain;
   }
 
-  /* ── Boutons ── */
   .actions {
     margin-top: 24px;
     display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;
@@ -240,7 +237,8 @@
 <p class="tagline">la beauté du quotidien</p>
 
 <p class="hint">
-  Glissez une photo dans la zone du haut · <kbd>Molette</kbd> zoom · Glissez pour recadrer
+  Glissez une photo dans la zone du haut · <kbd>Molette</kbd> zoom · Glissez pour recadrer<br>
+  Le texte passe automatiquement en majuscules — les accents sont conservés.
 </p>
 
 <div class="controls">
@@ -297,6 +295,120 @@ let photoImg = null, photoScale = 1, photoX = 0, photoY = 0, dragStart = null;
 
 const timbreImg = new Image(); timbreImg.src = './timbre.png';
 const logoImg   = new Image(); logoImg.src   = './logo.png';
+
+/* ══════════════════════════════════════════
+   ACCENTS SUR MAJUSCULES
+   Dessine la lettre de base puis l'accent
+   ══════════════════════════════════════════ */
+const ACCENT_MAP = {
+  'É': { base: 'E', type: 'acute' },
+  'È': { base: 'E', type: 'grave' },
+  'Ê': { base: 'E', type: 'circumflex' },
+  'Ë': { base: 'E', type: 'diaeresis' },
+  'À': { base: 'A', type: 'grave' },
+  'Á': { base: 'A', type: 'acute' },
+  'Â': { base: 'A', type: 'circumflex' },
+  'Ù': { base: 'U', type: 'grave' },
+  'Ú': { base: 'U', type: 'acute' },
+  'Û': { base: 'U', type: 'circumflex' },
+  'Ü': { base: 'U', type: 'diaeresis' },
+  'Ô': { base: 'O', type: 'circumflex' },
+  'Ö': { base: 'O', type: 'diaeresis' },
+  'Î': { base: 'I', type: 'circumflex' },
+  'Ï': { base: 'I', type: 'diaeresis' },
+  'Ç': { base: 'C', type: 'cedilla' },
+};
+
+function drawAccent(ctx, type, cx, top, fontSize) {
+  const s = fontSize * 0.18; // taille de l'accent proportionnelle
+  ctx.save();
+  ctx.lineWidth = fontSize * 0.045;
+  ctx.lineCap = 'round';
+  ctx.strokeStyle = ctx.fillStyle; // même couleur que le texte
+
+  switch (type) {
+    case 'acute':
+      ctx.beginPath();
+      ctx.moveTo(cx - s * 0.4, top - s * 0.2);
+      ctx.lineTo(cx + s * 0.5, top - s * 1.2);
+      ctx.stroke();
+      break;
+    case 'grave':
+      ctx.beginPath();
+      ctx.moveTo(cx + s * 0.4, top - s * 0.2);
+      ctx.lineTo(cx - s * 0.5, top - s * 1.2);
+      ctx.stroke();
+      break;
+    case 'circumflex':
+      ctx.beginPath();
+      ctx.moveTo(cx - s * 0.7, top - s * 0.1);
+      ctx.lineTo(cx, top - s * 1.2);
+      ctx.lineTo(cx + s * 0.7, top - s * 0.1);
+      ctx.stroke();
+      break;
+    case 'diaeresis':
+      const dotR = fontSize * 0.035;
+      ctx.beginPath();
+      ctx.arc(cx - s * 0.45, top - s * 0.5, dotR, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(cx + s * 0.45, top - s * 0.5, dotR, 0, Math.PI * 2);
+      ctx.fill();
+      break;
+    case 'cedilla':
+      ctx.beginPath();
+      ctx.moveTo(cx, top + fontSize * 0.95);
+      ctx.lineTo(cx + s * 0.2, top + fontSize * 1.05);
+      ctx.lineTo(cx - s * 0.3, top + fontSize * 1.2);
+      ctx.stroke();
+      break;
+  }
+  ctx.restore();
+}
+
+/* Dessine une ligne en remplaçant les majuscules accentuées
+   par lettre de base + accent dessiné manuellement */
+function drawLineWithAccents(ctx, line, centerX, centerY, fontSize) {
+  const upper = line.toUpperCase();
+
+  // Construire la ligne nettoyée (bases uniquement)
+  let clean = '';
+  const accents = [];
+  for (let i = 0; i < upper.length; i++) {
+    const ch = upper[i];
+    if (ACCENT_MAP[ch]) {
+      clean += ACCENT_MAP[ch].base;
+      accents.push({ index: i, type: ACCENT_MAP[ch].type });
+    } else {
+      clean += ch;
+    }
+  }
+
+  // Dessiner la ligne nettoyée (centrée)
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(clean, centerX, centerY);
+
+  // Dessiner les accents aux bonnes positions
+  if (accents.length === 0) return;
+
+  const totalW = ctx.measureText(clean).width;
+  const startX = centerX - totalW / 2;
+
+  // Passer en alignement gauche pour mesurer les positions
+  ctx.textAlign = 'left';
+  for (const acc of accents) {
+    const prefix = clean.substring(0, acc.index);
+    const prefixW = ctx.measureText(prefix).width;
+    const charW = ctx.measureText(clean[acc.index]).width;
+    const charCenterX = startX + prefixW + charW / 2;
+    const charTop = centerY - fontSize * 0.35;
+    drawAccent(ctx, acc.type, charCenterX, charTop, fontSize);
+  }
+
+  // Remettre centré pour la suite
+  ctx.textAlign = 'center';
+}
 
 /* ══ PHOTO : chargement ══ */
 photoZone.addEventListener('click', () => { if (!photoImg) photoInput.click(); });
@@ -414,20 +526,20 @@ function exportCard() {
     ctx.drawImage(timbreImg, CARD_W - sw - 24, PHOTO_H + 20, sw, sh);
   }
 
-  // 5) Texte principal
+  // 5) Texte principal avec accents dessinés
   const fs = parseInt(document.getElementById('fontSize').value) || 15;
   const realFS = fs * rx;
   ctx.fillStyle = '#1b3c87';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
   ctx.font = `${realFS}px Choupinet, Courier New, monospace`;
 
   const lines = mainText.value.split('\n');
   const lineH = realFS * 1.7;
   const totalH = lines.length * lineH;
   const startY = PHOTO_H + (TEXT_H - totalH) / 2 - 20 * rx;
+
   lines.forEach((line, i) => {
-    ctx.fillText(line, CARD_W / 2, startY + i * lineH + lineH / 2);
+    const cy = startY + i * lineH + lineH / 2;
+    drawLineWithAccents(ctx, line, CARD_W / 2, cy, realFS);
   });
 
   // 6) Logo en bas
