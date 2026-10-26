@@ -7,7 +7,7 @@
 <style>
   @font-face {
     font-family: 'Choupinet';
-    src: url('./fonts/Choupinet-regular.ttf') format('truetype');
+    src: url('./fonts/Choupinet-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
   }
@@ -29,7 +29,6 @@
   .hint { font-size: 0.85rem; color: #999; margin-bottom: 16px; text-align: center; line-height: 1.5; }
   kbd { background: #333; border: 1px solid #555; border-radius: 3px; padding: 1px 5px; font-size: 0.8rem; }
 
-  /* ── Contrôles ── */
   .controls {
     display: flex; flex-wrap: wrap; gap: 12px;
     align-items: center; margin-bottom: 16px;
@@ -42,7 +41,6 @@
     border-radius: 6px; padding: 6px 10px; font-size: 0.9rem;
   }
 
-  /* ── Carte ── */
   .canvas-wrap {
     position: relative;
     width: 525px;
@@ -53,7 +51,6 @@
     background: #000;
   }
 
-  /* ── Zone photo (haut 60%) ── */
   .photo-zone {
     position: absolute; top: 0; left: 0;
     width: 100%; height: 60%;
@@ -74,7 +71,6 @@
     pointer-events: none; text-align: center; line-height: 1.6;
   }
 
-  /* ── Zone texte (bas 40%) ── */
   .text-zone {
     position: absolute; bottom: 0; left: 0;
     width: 100%; height: 40%;
@@ -85,18 +81,15 @@
     overflow: hidden;
   }
 
-  /* ── Timbre ── */
   .stamp {
     position: absolute; top: 10px; right: 10px;
     width: 52px; height: 66px;
-    cursor: pointer;
     overflow: hidden;
   }
   .stamp img {
     width: 100%; height: 100%; object-fit: contain;
   }
 
-  /* ── Texte ── */
   .main-text {
     font-family: 'Choupinet', 'Courier New', monospace;
     color: #1b3c87;
@@ -111,23 +104,17 @@
     min-height: 70px;
   }
 
-  .credits {
-    position: absolute; bottom: 6px; left: 0; right: 0;
-    text-align: center;
+  .logo-bottom {
+    position: absolute; bottom: 8px; left: 50%;
+    transform: translateX(-50%);
+    height: 30px;
+    opacity: 0.8;
   }
-  .credits-input {
-    font-family: 'Choupinet', 'Courier New', monospace;
-    color: #1b3c87;
-    font-size: 7px;
-    text-align: center;
-    background: transparent;
-    border: none;
-    outline: none;
-    width: 80%;
-    opacity: 0.75;
+  .logo-bottom img {
+    height: 100%;
+    object-fit: contain;
   }
 
-  /* ── Boutons ── */
   .actions { margin-top: 16px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
   button {
     background: #2563eb; color: #fff; border: none;
@@ -145,8 +132,7 @@
 
 <h1>📮 Carte Postale — Studio</h1>
 <p class="hint">
-  Glissez une photo dans la zone du haut · <kbd>Molette</kbd> zoom · Glissez pour recadrer<br>
-  Cliquez sur le timbre pour le remplacer
+  Glissez une photo dans la zone du haut · <kbd>Molette</kbd> zoom · Glissez pour recadrer
 </p>
 
 <div class="controls">
@@ -163,56 +149,19 @@
 </div>
 
 <div class="canvas-wrap" id="cardWrap">
-
-  <!-- Zone photo -->
   <div class="photo-zone" id="photoZone">
     <span class="drop-label" id="dropLabel">📷 Glissez votre photo ici<br>ou cliquez</span>
   </div>
 
-  <!-- Zone texte -->
   <div class="text-zone" id="textZone">
-
-    <!-- Timbre SVG par défaut -->
-    <div class="stamp" id="stampZone" title="Cliquer pour remplacer le timbre">
-      <svg viewBox="0 0 52 66" xmlns="http://www.w3.org/2000/svg">
-        <!-- bordure pointillée -->
-        <rect x="1" y="1" width="50" height="64" rx="2" fill="none"
-              stroke="#8aabcf" stroke-width="1" stroke-dasharray="3,2"/>
-        <!-- tiges -->
-        <line x1="16" y1="52" x2="16" y2="30" stroke="#4a8a5a" stroke-width="1.2" stroke-linecap="round"/>
-        <line x1="26" y1="54" x2="26" y2="22" stroke="#4a8a5a" stroke-width="1.2" stroke-linecap="round"/>
-        <line x1="36" y1="52" x2="36" y2="28" stroke="#4a8a5a" stroke-width="1.2" stroke-linecap="round"/>
-        <line x1="21" y1="53" x2="21" y2="36" stroke="#4a8a5a" stroke-width="1" stroke-linecap="round"/>
-        <line x1="31" y1="53" x2="31" y2="34" stroke="#4a8a5a" stroke-width="1" stroke-linecap="round"/>
-        <!-- feuilles -->
-        <ellipse cx="14" cy="40" rx="3" ry="5" fill="#6aaa6a" transform="rotate(-15 14 40)" opacity="0.7"/>
-        <ellipse cx="28" cy="38" rx="2.5" ry="4.5" fill="#6aaa6a" transform="rotate(10 28 38)" opacity="0.7"/>
-        <ellipse cx="38" cy="42" rx="3" ry="4" fill="#6aaa6a" transform="rotate(-10 38 42)" opacity="0.6"/>
-        <ellipse cx="20" cy="44" rx="2" ry="4" fill="#7aba7a" transform="rotate(12 20 44)" opacity="0.6"/>
-        <!-- fleurs bleues -->
-        <circle cx="16" cy="27" r="3.5" fill="#5b7fbf" opacity="0.85"/>
-        <circle cx="16" cy="27" r="1.5" fill="#f5edce"/>
-        <circle cx="26" cy="20" r="4" fill="#4a6eb5" opacity="0.85"/>
-        <circle cx="26" cy="20" r="1.8" fill="#f5edce"/>
-        <circle cx="36" cy="25" r="3" fill="#6a90cc" opacity="0.85"/>
-        <circle cx="36" cy="25" r="1.3" fill="#f5edce"/>
-        <circle cx="21" cy="33" r="2.5" fill="#7a9fd6" opacity="0.8"/>
-        <circle cx="21" cy="33" r="1.1" fill="#f5edce"/>
-        <circle cx="31" cy="31" r="3" fill="#5b7fbf" opacity="0.8"/>
-        <circle cx="31" cy="31" r="1.3" fill="#f5edce"/>
-        <!-- petits points déco -->
-        <circle cx="12" cy="48" r="1" fill="#4a8a5a" opacity="0.5"/>
-        <circle cx="40" cy="48" r="1" fill="#4a8a5a" opacity="0.5"/>
-        <circle cx="26" cy="14" r="1" fill="#5b7fbf" opacity="0.4"/>
-      </svg>
+    <div class="stamp">
+      <img src="./timbre.png" alt="timbre">
     </div>
 
     <textarea class="main-text" id="mainText" rows="4" placeholder="VOTRE TEXTE ICI"></textarea>
 
-    <div class="credits">
-      <input class="credits-input" id="creditsText"
-             value="www.departementalesmagazine.com — instagram : @départementalesmagazine"
-             placeholder="crédits…">
+    <div class="logo-bottom">
+      <img src="./logo.png" alt="logo" id="logoImg">
     </div>
   </div>
 </div>
@@ -223,29 +172,24 @@
 </div>
 
 <input type="file" id="photoInput" accept="image/*" class="hidden">
-<input type="file" id="stampInput" accept="image/*" class="hidden">
 
 <script>
-/* ══ Dimensions réelles ══ */
 const CARD_W = 1050, CARD_H = 1480;
-const PHOTO_H = Math.round(CARD_H * 0.6); // 888
-const TEXT_H  = CARD_H - PHOTO_H;          // 592
+const PHOTO_H = Math.round(CARD_H * 0.6);
+const TEXT_H  = CARD_H - PHOTO_H;
 
-/* ══ Éléments ══ */
 const photoZone  = document.getElementById('photoZone');
-const textZone   = document.getElementById('textZone');
 const mainText   = document.getElementById('mainText');
-const creditsText= document.getElementById('creditsText');
-const stampZone  = document.getElementById('stampZone');
 const photoInput = document.getElementById('photoInput');
-const stampInput = document.getElementById('stampInput');
 const dropLabel  = document.getElementById('dropLabel');
 
-/* ══ État ══ */
 let photoImg = null, photoScale = 1, photoX = 0, photoY = 0, dragStart = null;
-let stampCustom = false; // true si l'utilisateur a chargé un timbre
 
-/* ══ PHOTO : chargement ══ */
+/* Précharger timbre et logo pour l'export */
+const timbreImg = new Image(); timbreImg.src = './timbre.png';
+const logoImg   = new Image(); logoImg.src   = './logo.png';
+
+/* ══ PHOTO ══ */
 photoZone.addEventListener('click', () => { if (!photoImg) photoInput.click(); });
 photoInput.addEventListener('change', (e) => { if (e.target.files[0]) loadPhoto(e.target.files[0]); });
 
@@ -285,7 +229,7 @@ function renderPhoto() {
   photoZone.appendChild(el);
 }
 
-/* ══ PHOTO : déplacement ══ */
+/* ══ Déplacement ══ */
 photoZone.addEventListener('mousedown', (e) => {
   if (!photoImg) return;
   e.preventDefault();
@@ -303,7 +247,7 @@ window.addEventListener('mouseup', () => {
   photoZone.classList.remove('dragging');
 });
 
-/* ══ PHOTO : zoom molette ══ */
+/* ══ Zoom ══ */
 photoZone.addEventListener('wheel', (e) => {
   if (!photoImg) return;
   e.preventDefault();
@@ -316,23 +260,7 @@ photoZone.addEventListener('wheel', (e) => {
   renderPhoto();
 }, { passive: false });
 
-/* ══ TIMBRE : remplacement ══ */
-stampZone.addEventListener('click', () => stampInput.click());
-stampInput.addEventListener('change', (e) => {
-  if (!e.target.files[0]) return;
-  const img = new Image();
-  img.onload = () => {
-    stampCustom = true;
-    stampZone.innerHTML = '';
-    const el = document.createElement('img');
-    el.src = img.src;
-    stampZone._customImg = img;
-    stampZone.appendChild(el);
-  };
-  img.src = URL.createObjectURL(e.target.files[0]);
-});
-
-/* ══ CONTRÔLES ══ */
+/* ══ Contrôles ══ */
 document.getElementById('fontSize').addEventListener('input', (e) => {
   mainText.style.fontSize = e.target.value + 'px';
 });
@@ -363,7 +291,10 @@ function exportCard() {
   ctx.fillRect(0, PHOTO_H, CARD_W, TEXT_H);
 
   // 3) Timbre
-  drawStamp(ctx, rx);
+  if (timbreImg.complete && timbreImg.naturalWidth > 0) {
+    const sw = 110, sh = 140;
+    ctx.drawImage(timbreImg, CARD_W - sw - 24, PHOTO_H + 24, sw, sh);
+  }
 
   // 4) Texte principal
   const fs = parseInt(document.getElementById('fontSize').value) || 15;
@@ -381,12 +312,14 @@ function exportCard() {
     ctx.fillText(line, CARD_W / 2, startY + i * lineH + lineH / 2);
   });
 
-  // 5) Crédits
-  const cfs = Math.round(7 * rx);
-  ctx.font = `${cfs}px Choupinet, Courier New, monospace`;
-  ctx.globalAlpha = 0.75;
-  ctx.fillText(creditsText.value, CARD_W / 2, CARD_H - 16 * rx);
-  ctx.globalAlpha = 1;
+  // 5) Logo en bas
+  if (logoImg.complete && logoImg.naturalWidth > 0) {
+    const lh = 60;
+    const lw = (logoImg.naturalWidth / logoImg.naturalHeight) * lh;
+    ctx.globalAlpha = 0.8;
+    ctx.drawImage(logoImg, (CARD_W - lw) / 2, CARD_H - lh - 16, lw, lh);
+    ctx.globalAlpha = 1;
+  }
 
   // Téléchargement
   const fmt = document.getElementById('exportFormat').value;
@@ -399,66 +332,6 @@ function exportCard() {
     a.click();
     URL.revokeObjectURL(a.href);
   }, mime, fmt === 'png' ? undefined : 0.92);
-}
-
-/* ── Dessiner le timbre sur le canvas d'export ── */
-function drawStamp(ctx, rx) {
-  const sw = 110, sh = 140;
-  const sx = CARD_W - sw - 24, sy = PHOTO_H + 24;
-
-  if (stampCustom && stampZone._customImg) {
-    ctx.drawImage(stampZone._customImg, sx, sy, sw, sh);
-    return;
-  }
-
-  // Timbre SVG par défaut redessiné sur canvas
-  ctx.save();
-  ctx.translate(sx, sy);
-  const s = sw / 52; // scale du viewBox 52×66
-
-  // Bordure pointillée
-  ctx.strokeStyle = '#8aabcf';
-  ctx.lineWidth = 1 * s;
-  ctx.setLineDash([3 * s, 2 * s]);
-  roundRect(ctx, 1*s, 1*s, 50*s, 64*s, 2*s);
-  ctx.stroke();
-  ctx.setLineDash([]);
-
-  // Tiges
-  ctx.strokeStyle = '#4a8a5a'; ctx.lineCap = 'round';
-  [[16,52,16,30,1.2],[26,54,26,22,1.2],[36,52,36,28,1.2],[21,53,21,36,1],[31,53,31,34,1]].forEach(([x1,y1,x2,y2,w]) => {
-    ctx.lineWidth = w * s;
-    ctx.beginPath(); ctx.moveTo(x1*s,y1*s); ctx.lineTo(x2*s,y2*s); ctx.stroke();
-  });
-
-  // Feuilles
-  ctx.globalAlpha = 0.7;
-  [[14,40,3,5,-15,'#6aaa6a'],[28,38,2.5,4.5,10,'#6aaa6a'],[38,42,3,4,-10,'#6aaa6a'],[20,44,2,4,12,'#7aba7a']].forEach(([cx,cy,rxa,ry,rot,col]) => {
-    ctx.save(); ctx.translate(cx*s,cy*s); ctx.rotate(rot*Math.PI/180);
-    ctx.fillStyle = col; ctx.beginPath(); ctx.ellipse(0,0,rxa*s,ry*s,0,0,Math.PI*2); ctx.fill();
-    ctx.restore();
-  });
-  ctx.globalAlpha = 1;
-
-  // Fleurs
-  [[16,27,3.5,1.5,'#5b7fbf',0.85],[26,20,4,1.8,'#4a6eb5',0.85],[36,25,3,1.3,'#6a90cc',0.85],
-   [21,33,2.5,1.1,'#7a9fd6',0.8],[31,31,3,1.3,'#5b7fbf',0.8]].forEach(([cx,cy,ro,ri,col,a]) => {
-    ctx.globalAlpha = a;
-    ctx.fillStyle = col; ctx.beginPath(); ctx.arc(cx*s,cy*s,ro*s,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle = '#f5edce'; ctx.beginPath(); ctx.arc(cx*s,cy*s,ri*s,0,Math.PI*2); ctx.fill();
-  });
-  ctx.globalAlpha = 1;
-
-  ctx.restore();
-}
-
-function roundRect(ctx, x, y, w, h, r) {
-  ctx.beginPath();
-  ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r);
-  ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
-  ctx.lineTo(x+r,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r);
-  ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y);
-  ctx.closePath();
 }
 
 function resetPhoto() {
