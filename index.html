@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Carte Postale — Studio</title>
+<title>Carte Postale — Départementales Magazine</title>
 <style>
   @font-face {
     font-family: 'Choupinet';
@@ -15,47 +15,93 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    font-family: system-ui, sans-serif;
-    background: #1a1a1a;
-    color: #eee;
+    font-family: 'Choupinet', Georgia, serif;
+    background: #faf6ec;
+    color: #1b3c87;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 24px;
+    padding: 40px 24px;
     min-height: 100vh;
   }
 
-  h1 { font-size: 1.4rem; margin-bottom: 8px; }
-  .hint { font-size: 0.85rem; color: #999; margin-bottom: 16px; text-align: center; line-height: 1.5; }
-  kbd { background: #333; border: 1px solid #555; border-radius: 3px; padding: 1px 5px; font-size: 0.8rem; }
-
-  .controls {
-    display: flex; flex-wrap: wrap; gap: 12px;
-    align-items: center; margin-bottom: 16px;
-    max-width: 700px;
+  h1 {
+    font-family: 'Choupinet', Georgia, serif;
+    font-size: 1.6rem;
+    font-weight: normal;
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
   }
-  .controls label { font-size: 0.85rem; color: #ccc; display: flex; align-items: center; gap: 6px; }
+  .tagline {
+    font-family: 'Choupinet', Georgia, serif;
+    font-size: 0.9rem;
+    color: #8a7a5a;
+    margin-bottom: 24px;
+    letter-spacing: 0.06em;
+  }
+
+  .hint {
+    font-family: system-ui, sans-serif;
+    font-size: 0.78rem;
+    color: #a09880;
+    margin-bottom: 20px;
+    text-align: center;
+    line-height: 1.6;
+  }
+  kbd {
+    background: #f0ead8;
+    border: 1px solid #d8ceae;
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-size: 0.75rem;
+    color: #7a6c4a;
+  }
+
+  /* ── Contrôles ── */
+  .controls {
+    display: flex; flex-wrap: wrap; gap: 14px;
+    align-items: center; margin-bottom: 20px;
+  }
+  .controls label {
+    font-family: system-ui, sans-serif;
+    font-size: 0.8rem;
+    color: #8a7a5a;
+    display: flex; align-items: center; gap: 6px;
+  }
   .controls input[type="number"],
   .controls select {
-    background: #2a2a2a; color: #eee; border: 1px solid #444;
-    border-radius: 6px; padding: 6px 10px; font-size: 0.9rem;
+    background: #fff;
+    color: #1b3c87;
+    border: 1px solid #d8ceae;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 0.85rem;
+    font-family: system-ui, sans-serif;
+  }
+  .controls input[type="number"]:focus,
+  .controls select:focus {
+    outline: none;
+    border-color: #1b3c87;
   }
 
+  /* ── Carte ── */
   .canvas-wrap {
     position: relative;
     width: 525px;
     height: 740px;
-    border: 2px solid #444;
-    border-radius: 8px;
+    border: 1px solid #d8ceae;
+    border-radius: 4px;
     overflow: hidden;
-    background: #000;
+    background: #f5edce;
+    box-shadow: 0 4px 20px rgba(139, 122, 90, 0.12);
   }
 
+  /* ── Zone photo ── */
   .photo-zone {
     position: absolute; top: 0; left: 0;
     width: 100%; height: 60%;
     overflow: hidden;
-    background: #2a2a2a;
+    background: #e8e0c8;
     display: flex; align-items: center; justify-content: center;
     cursor: grab;
   }
@@ -67,10 +113,15 @@
     -webkit-user-drag: none;
   }
   .drop-label {
-    color: #777; font-size: 0.9rem;
-    pointer-events: none; text-align: center; line-height: 1.6;
+    color: #b0a480;
+    font-family: 'Choupinet', Georgia, serif;
+    font-size: 1rem;
+    pointer-events: none;
+    text-align: center;
+    line-height: 1.8;
   }
 
+  /* ── Zone texte ── */
   .text-zone {
     position: absolute; bottom: 0; left: 0;
     width: 100%; height: 40%;
@@ -115,31 +166,72 @@
     object-fit: contain;
   }
 
-  .actions { margin-top: 16px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
-  button {
-    background: #2563eb; color: #fff; border: none;
-    border-radius: 8px; padding: 10px 24px; font-size: 0.95rem;
-    cursor: pointer; transition: background 0.2s;
+  /* ── Séparateur subtil entre photo et texte ── */
+  .text-zone::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 10%; right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #c8b88a, transparent);
   }
-  button:hover { background: #1d4ed8; }
-  button.sec { background: #444; }
-  button.sec:hover { background: #555; }
+
+  /* ── Boutons ── */
+  .actions {
+    margin-top: 24px;
+    display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;
+  }
+  button {
+    font-family: system-ui, sans-serif;
+    font-size: 0.85rem;
+    border: 1px solid #d8ceae;
+    border-radius: 6px;
+    padding: 10px 24px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  button.primary {
+    background: #1b3c87;
+    color: #faf6ec;
+    border-color: #1b3c87;
+  }
+  button.primary:hover {
+    background: #15306d;
+  }
+  button.sec {
+    background: transparent;
+    color: #8a7a5a;
+  }
+  button.sec:hover {
+    background: #f0ead8;
+    color: #1b3c87;
+  }
 
   .hidden { display: none; }
+
+  /* ── Footer ── */
+  .footer {
+    margin-top: 32px;
+    font-family: system-ui, sans-serif;
+    font-size: 0.7rem;
+    color: #b8aa88;
+    letter-spacing: 0.03em;
+  }
 </style>
 </head>
 <body>
 
-<h1>📮 Carte Postale — Studio</h1>
+<h1>carte postale</h1>
+<p class="tagline">la beauté du quotidien</p>
+
 <p class="hint">
   Glissez une photo dans la zone du haut · <kbd>Molette</kbd> zoom · Glissez pour recadrer
 </p>
 
 <div class="controls">
-  <label>Taille texte
+  <label>taille du texte
     <input type="number" id="fontSize" value="15" min="8" max="40" step="1" style="width:60px">
   </label>
-  <label>Format
+  <label>format
     <select id="exportFormat">
       <option value="png">PNG</option>
       <option value="jpeg">JPG</option>
@@ -150,7 +242,7 @@
 
 <div class="canvas-wrap" id="cardWrap">
   <div class="photo-zone" id="photoZone">
-    <span class="drop-label" id="dropLabel">📷 Glissez votre photo ici<br>ou cliquez</span>
+    <span class="drop-label" id="dropLabel">glissez votre photo ici<br>ou cliquez</span>
   </div>
 
   <div class="text-zone" id="textZone">
@@ -158,7 +250,7 @@
       <img src="./timbre.png" alt="timbre">
     </div>
 
-    <textarea class="main-text" id="mainText" rows="4" placeholder="VOTRE TEXTE ICI"></textarea>
+    <textarea class="main-text" id="mainText" rows="4" placeholder="votre texte ici…"></textarea>
 
     <div class="logo-bottom">
       <img src="./logo.png" alt="logo" id="logoImgEl">
@@ -167,9 +259,11 @@
 </div>
 
 <div class="actions">
-  <button class="sec" onclick="resetPhoto()">🔄 Nouvelle photo</button>
-  <button onclick="exportCard()">⬇ Exporter</button>
+  <button class="sec" onclick="resetPhoto()">nouvelle photo</button>
+  <button class="primary" onclick="exportCard()">exporter</button>
 </div>
+
+<p class="footer">départementales magazine</p>
 
 <input type="file" id="photoInput" accept="image/*" class="hidden">
 
@@ -185,7 +279,6 @@ const dropLabel  = document.getElementById('dropLabel');
 
 let photoImg = null, photoScale = 1, photoX = 0, photoY = 0, dragStart = null;
 
-/* Précharger timbre et logo pour l'export */
 const timbreImg = new Image(); timbreImg.src = './timbre.png';
 const logoImg   = new Image(); logoImg.src   = './logo.png';
 
@@ -282,7 +375,7 @@ function exportCard() {
       photoImg.height * photoScale * ry
     );
   } else {
-    ctx.fillStyle = '#2a2a2a';
+    ctx.fillStyle = '#e8e0c8';
     ctx.fillRect(0, 0, CARD_W, PHOTO_H);
   }
 
@@ -290,14 +383,22 @@ function exportCard() {
   ctx.fillStyle = '#f5edce';
   ctx.fillRect(0, PHOTO_H, CARD_W, TEXT_H);
 
-  // 3) Timbre (ratio naturel conservé)
+  // 3) Trait séparateur
+  const grad = ctx.createLinearGradient(CARD_W * 0.1, 0, CARD_W * 0.9, 0);
+  grad.addColorStop(0, 'transparent');
+  grad.addColorStop(0.5, '#c8b88a');
+  grad.addColorStop(1, 'transparent');
+  ctx.fillStyle = grad;
+  ctx.fillRect(CARD_W * 0.1, PHOTO_H, CARD_W * 0.8, 1);
+
+  // 4) Timbre
   if (timbreImg.complete && timbreImg.naturalWidth > 0) {
     const sh = 140;
     const sw = (timbreImg.naturalWidth / timbreImg.naturalHeight) * sh;
     ctx.drawImage(timbreImg, CARD_W - sw - 24, PHOTO_H + 20, sw, sh);
   }
 
-  // 4) Texte principal
+  // 5) Texte principal
   const fs = parseInt(document.getElementById('fontSize').value) || 15;
   const realFS = fs * rx;
   ctx.fillStyle = '#1b3c87';
@@ -313,7 +414,7 @@ function exportCard() {
     ctx.fillText(line, CARD_W / 2, startY + i * lineH + lineH / 2);
   });
 
-  // 5) Logo en bas (ratio naturel conservé)
+  // 6) Logo en bas
   if (logoImg.complete && logoImg.naturalWidth > 0) {
     const lh = 76;
     const lw = (logoImg.naturalWidth / logoImg.naturalHeight) * lh;
