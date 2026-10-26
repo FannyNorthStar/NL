@@ -15,7 +15,7 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    font-family: 'Choupinet', Georgia, serif;
+    font-family: 'Times New Roman', Times, serif;
     background: #faf6ec;
     color: #1b3c87;
     display: flex;
@@ -26,15 +26,17 @@
   }
 
   h1 {
-    font-family: 'Choupinet', Georgia, serif;
+    font-family: 'Times New Roman', Times, serif;
     font-size: 1.6rem;
     font-weight: normal;
     letter-spacing: 0.04em;
     margin-bottom: 4px;
+    color: #1b3c87;
   }
   .tagline {
-    font-family: 'Choupinet', Georgia, serif;
+    font-family: 'Times New Roman', Times, serif;
     font-size: 0.9rem;
+    font-style: italic;
     color: #8a7a5a;
     margin-bottom: 24px;
     letter-spacing: 0.06em;
@@ -233,8 +235,8 @@
 </head>
 <body>
 
-<h1>carte postale</h1>
-<p class="tagline">la beauté du quotidien</p>
+<h1>Carte Postale</h1>
+<p class="tagline">La beauté du quotidien</p>
 
 <p class="hint">
   Glissez une photo dans la zone du haut · <kbd>Molette</kbd> zoom · Glissez pour recadrer<br>
@@ -242,10 +244,10 @@
 </p>
 
 <div class="controls">
-  <label>taille du texte
+  <label>Taille du texte
     <input type="number" id="fontSize" value="15" min="8" max="40" step="1" style="width:60px">
   </label>
-  <label>format
+  <label>Format
     <select id="exportFormat">
       <option value="png">PNG</option>
       <option value="jpeg">JPG</option>
@@ -256,7 +258,7 @@
 
 <div class="canvas-wrap" id="cardWrap">
   <div class="photo-zone" id="photoZone">
-    <span class="drop-label" id="dropLabel">glissez votre photo ici<br>ou cliquez</span>
+    <span class="drop-label" id="dropLabel">Glissez votre photo ici<br>ou cliquez</span>
   </div>
 
   <div class="text-zone" id="textZone">
@@ -273,11 +275,11 @@
 </div>
 
 <div class="actions">
-  <button class="sec" onclick="resetPhoto()">nouvelle photo</button>
-  <button class="primary" onclick="exportCard()">exporter</button>
+  <button class="sec" onclick="resetPhoto()">Nouvelle photo</button>
+  <button class="primary" onclick="exportCard()">Exporter</button>
 </div>
 
-<p class="footer">départementales magazine</p>
+<p class="footer">Départementales Magazine</p>
 
 <input type="file" id="photoInput" accept="image/*" class="hidden">
 
@@ -298,7 +300,6 @@ const logoImg   = new Image(); logoImg.src   = './logo.png';
 
 /* ══════════════════════════════════════════
    ACCENTS SUR MAJUSCULES
-   Dessine la lettre de base puis l'accent
    ══════════════════════════════════════════ */
 const ACCENT_MAP = {
   'É': { base: 'E', type: 'acute' },
@@ -320,11 +321,11 @@ const ACCENT_MAP = {
 };
 
 function drawAccent(ctx, type, cx, top, fontSize) {
-  const s = fontSize * 0.18; // taille de l'accent proportionnelle
+  const s = fontSize * 0.18;
   ctx.save();
   ctx.lineWidth = fontSize * 0.045;
   ctx.lineCap = 'round';
-  ctx.strokeStyle = ctx.fillStyle; // même couleur que le texte
+  ctx.strokeStyle = ctx.fillStyle;
 
   switch (type) {
     case 'acute':
@@ -366,12 +367,8 @@ function drawAccent(ctx, type, cx, top, fontSize) {
   ctx.restore();
 }
 
-/* Dessine une ligne en remplaçant les majuscules accentuées
-   par lettre de base + accent dessiné manuellement */
 function drawLineWithAccents(ctx, line, centerX, centerY, fontSize) {
   const upper = line.toUpperCase();
-
-  // Construire la ligne nettoyée (bases uniquement)
   let clean = '';
   const accents = [];
   for (let i = 0; i < upper.length; i++) {
@@ -384,18 +381,15 @@ function drawLineWithAccents(ctx, line, centerX, centerY, fontSize) {
     }
   }
 
-  // Dessiner la ligne nettoyée (centrée)
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.fillText(clean, centerX, centerY);
 
-  // Dessiner les accents aux bonnes positions
   if (accents.length === 0) return;
 
   const totalW = ctx.measureText(clean).width;
   const startX = centerX - totalW / 2;
 
-  // Passer en alignement gauche pour mesurer les positions
   ctx.textAlign = 'left';
   for (const acc of accents) {
     const prefix = clean.substring(0, acc.index);
@@ -406,11 +400,10 @@ function drawLineWithAccents(ctx, line, centerX, centerY, fontSize) {
     drawAccent(ctx, acc.type, charCenterX, charTop, fontSize);
   }
 
-  // Remettre centré pour la suite
   ctx.textAlign = 'center';
 }
 
-/* ══ PHOTO : chargement ══ */
+/* ══ PHOTO ══ */
 photoZone.addEventListener('click', () => { if (!photoImg) photoInput.click(); });
 photoInput.addEventListener('change', (e) => { if (e.target.files[0]) loadPhoto(e.target.files[0]); });
 
