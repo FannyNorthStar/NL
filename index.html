@@ -20,8 +20,7 @@
 
   body {
     font-family: 'Times New Roman', Times, serif;
-    background: #faf6ec;
-    color: #1b3c87;
+    background: #faf6ec; color: #1b3c87;
     display: flex; flex-direction: column; align-items: center;
     padding: 40px 24px; min-height: 100vh;
   }
@@ -107,8 +106,8 @@
 
   .haiku-text {
     font-family: 'Departementales', 'Choupinet', 'Courier New', monospace;
-    color: #1b3c87; font-size: 28px; text-align: left; line-height: 2;
-    text-transform: uppercase; width: 80%; margin: 0 auto;
+    color: #1b3c87; font-size: 42px; text-align: center; line-height: 1.36;
+    text-transform: uppercase; width: 90%; margin: 0 auto;
     resize: none; border: none; background: transparent; outline: none; min-height: 80px;
   }
   .haiku-text::placeholder { color: #999; font-family: 'Times New Roman', Times, serif; font-style: italic; text-transform: none; opacity: 0.6; }
@@ -118,7 +117,7 @@
   .slide-card .slide-label { font-size: 0.75rem; color: #8a7a5a; margin-bottom: 8px; }
   .slide-card textarea {
     font-family: 'Departementales', 'Choupinet', 'Courier New', monospace;
-    color: #1b3c87; font-size: 20px; text-align: left; line-height: 2;
+    color: #1b3c87; font-size: 30px; text-align: center; line-height: 1.36;
     text-transform: uppercase; width: 100%; resize: none;
     border: 1px solid #e8e0c8; border-radius: 4px; background: #fafafa;
     outline: none; padding: 12px; min-height: 70px;
@@ -217,7 +216,7 @@
       </select>
     </label>
     <label>Taille du texte
-      <input type="number" id="haikuFontSize" value="50" min="10" max="100" step="1" style="width:60px">
+      <input type="number" id="haikuFontSize" value="75" min="10" max="120" step="1" style="width:60px">
     </label>
     <label>Export
       <select id="haikuExportFormat">
@@ -255,12 +254,10 @@ function switchTab(tab) {
 
 /* ══ POLICES ══ */
 function updateCarteFont() {
-  const font = document.getElementById('carteFont').value;
-  document.getElementById('mainText').style.fontFamily = font + ", 'Courier New', monospace";
+  document.getElementById('mainText').style.fontFamily = document.getElementById('carteFont').value + ", 'Courier New', monospace";
 }
 function updateHaikuFont() {
-  const font = document.getElementById('haikuFont').value;
-  const ff = font + ", 'Courier New', monospace";
+  const ff = document.getElementById('haikuFont').value + ", 'Courier New', monospace";
   document.getElementById('haikuText').style.fontFamily = ff;
   document.querySelectorAll('.slide-card textarea').forEach(ta => { ta.style.fontFamily = ff; });
 }
@@ -311,7 +308,7 @@ function drawLineLeftAligned(ctx, line, leftX, centerY, fontSize) {
 function drawTextBlock(ctx, text, canvasW, centerY, fontSize, lineH) {
   const lines = text.split('\n');
   let maxW = 0;
-  const prepared = lines.map(line => {
+  lines.forEach(line => {
     const upper = line.toUpperCase();
     let clean = '';
     for (let i = 0; i < upper.length; i++) {
@@ -319,12 +316,11 @@ function drawTextBlock(ctx, text, canvasW, centerY, fontSize, lineH) {
     }
     const w = ctx.measureText(clean).width;
     if (w > maxW) maxW = w;
-    return line;
   });
   const blockLeft = (canvasW - maxW) / 2;
   const totalH = lines.length * lineH;
   const startY = centerY - totalH / 2;
-  prepared.forEach((line, i) => {
+  lines.forEach((line, i) => {
     drawLineLeftAligned(ctx, line, blockLeft, startY + i * lineH + lineH / 2, fontSize);
   });
 }
@@ -334,6 +330,7 @@ const CARD_W = 1050, CARD_H = 1480;
 const PHOTO_H = Math.round(CARD_H * 0.6);
 const TEXT_H = CARD_H - PHOTO_H;
 const MARGIN_H = 12;
+const LINE_H_RATIO = 1.36;
 
 const photoZone = document.getElementById('photoZone');
 const mainText = document.getElementById('mainText');
@@ -411,10 +408,11 @@ function exportCard() {
   canvas.width = CARD_W; canvas.height = CARD_H;
   const ctx = canvas.getContext('2d');
   const dispW = photoZone.offsetWidth, dispH = photoZone.offsetHeight;
-  const rx = CARD_W / dispW, ry = PHOTO_H / dispH;
+  const rx = CARD_W / dispW;
   const fontName = document.getElementById('carteFont').value;
 
   if (photoImg) {
+    const ry = PHOTO_H / dispH;
     ctx.drawImage(photoImg, photoX*rx, photoY*ry, photoImg.width*photoScale*rx, photoImg.height*photoScale*ry);
   } else {
     ctx.fillStyle = '#e2dac4'; ctx.fillRect(0, 0, CARD_W, PHOTO_H);
@@ -435,7 +433,7 @@ function exportCard() {
   const realFS = fs * rx;
   ctx.fillStyle = '#1b3c87';
   ctx.font = `${realFS}px ${fontName}, 'Courier New', monospace`;
-  const lineH = realFS * 1.36;
+  const lineH = realFS * LINE_H_RATIO;
   const textCenterY = PHOTO_H + MARGIN_H + (TEXT_H - MARGIN_H) / 2 - 20 * rx;
   drawTextBlock(ctx, mainText.value, CARD_W, textCenterY, realFS, lineH);
 
@@ -507,7 +505,7 @@ function renumberSlides() {
 function exportHaiku() {
   const fmt = document.getElementById('haikuFormat').value;
   const dim = HAIKU_FORMATS[fmt];
-  const fs = parseInt(document.getElementById('haikuFontSize').value) || 50;
+  const fs = parseInt(document.getElementById('haikuFontSize').value) || 75;
   const expFmt = document.getElementById('haikuExportFormat').value;
   const fontName = document.getElementById('haikuFont').value;
 
@@ -536,7 +534,7 @@ function renderHaikuCanvas(w, h, text, fontSize, fontName) {
 
   ctx.fillStyle = '#1b3c87';
   ctx.font = `${fontSize}px ${fontName}, 'Courier New', monospace`;
-  const lineH = fontSize * 1.6;
+  const lineH = fontSize * LINE_H_RATIO;
   drawTextBlock(ctx, text, w, h / 2, fontSize, lineH);
 
   if (logoBlancImg.complete && logoBlancImg.naturalWidth > 0) {
