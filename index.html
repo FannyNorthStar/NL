@@ -41,9 +41,10 @@
   }
 
   .hint {
-    font-family: system-ui, sans-serif;
-    font-size: 0.78rem;
-    color: #a09880;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 0.82rem;
+    font-style: italic;
+    color: #333;
     margin-bottom: 20px;
     text-align: center;
     line-height: 1.6;
@@ -54,6 +55,8 @@
     border-radius: 3px;
     padding: 1px 5px;
     font-size: 0.75rem;
+    font-style: normal;
+    font-family: system-ui, sans-serif;
     color: #7a6c4a;
   }
 
@@ -63,9 +66,9 @@
     align-items: center; margin-bottom: 20px;
   }
   .controls label {
-    font-family: system-ui, sans-serif;
-    font-size: 0.8rem;
-    color: #8a7a5a;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 0.82rem;
+    color: #333;
     display: flex; align-items: center; gap: 6px;
   }
   .controls input[type="number"],
@@ -101,7 +104,14 @@
     position: absolute; top: 0; left: 0;
     width: 100%; height: 60%;
     overflow: hidden;
-    background: #e8e0c8;
+    background-image:
+      linear-gradient(45deg, #d8d0b8 25%, transparent 25%),
+      linear-gradient(-45deg, #d8d0b8 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #d8d0b8 75%),
+      linear-gradient(-45deg, transparent 75%, #d8d0b8 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+    background-color: #e2dac4;
     display: flex; align-items: center; justify-content: center;
     cursor: grab;
   }
@@ -113,9 +123,10 @@
     -webkit-user-drag: none;
   }
   .drop-label {
-    color: #b0a480;
-    font-family: 'Choupinet', Georgia, serif;
-    font-size: 1rem;
+    color: #333;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 0.9rem;
+    font-style: italic;
     pointer-events: none;
     text-align: center;
     line-height: 1.8;
@@ -130,6 +141,14 @@
     align-items: center; justify-content: center;
     padding: 20px 32px;
     overflow: hidden;
+  }
+
+  .text-zone::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 10%; right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #c8b88a, transparent);
   }
 
   .stamp {
@@ -154,6 +173,12 @@
     outline: none;
     min-height: 70px;
   }
+  .main-text::placeholder {
+    color: #333;
+    font-family: 'Times New Roman', Times, serif;
+    font-style: italic;
+    opacity: 0.5;
+  }
 
   .logo-bottom {
     position: absolute; bottom: 6px; left: 50%;
@@ -166,22 +191,13 @@
     object-fit: contain;
   }
 
-  /* ── Séparateur subtil entre photo et texte ── */
-  .text-zone::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 10%; right: 10%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, #c8b88a, transparent);
-  }
-
   /* ── Boutons ── */
   .actions {
     margin-top: 24px;
     display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;
   }
   button {
-    font-family: system-ui, sans-serif;
+    font-family: 'Times New Roman', Times, serif;
     font-size: 0.85rem;
     border: 1px solid #d8ceae;
     border-radius: 6px;
@@ -208,13 +224,13 @@
 
   .hidden { display: none; }
 
-  /* ── Footer ── */
   .footer {
     margin-top: 32px;
-    font-family: system-ui, sans-serif;
+    font-family: 'Times New Roman', Times, serif;
     font-size: 0.7rem;
     color: #b8aa88;
     letter-spacing: 0.03em;
+    font-style: italic;
   }
 </style>
 </head>
@@ -375,7 +391,7 @@ function exportCard() {
       photoImg.height * photoScale * ry
     );
   } else {
-    ctx.fillStyle = '#e8e0c8';
+    ctx.fillStyle = '#e2dac4';
     ctx.fillRect(0, 0, CARD_W, PHOTO_H);
   }
 
