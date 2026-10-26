@@ -83,7 +83,7 @@
 
   .stamp {
     position: absolute; top: 10px; right: 10px;
-    width: 52px; height: 66px;
+    width: 56px; height: 66px;
     overflow: hidden;
   }
   .stamp img {
@@ -105,10 +105,10 @@
   }
 
   .logo-bottom {
-    position: absolute; bottom: 8px; left: 50%;
+    position: absolute; bottom: 6px; left: 50%;
     transform: translateX(-50%);
-    height: 30px;
-    opacity: 0.8;
+    height: 36px;
+    opacity: 0.85;
   }
   .logo-bottom img {
     height: 100%;
@@ -161,7 +161,7 @@
     <textarea class="main-text" id="mainText" rows="4" placeholder="VOTRE TEXTE ICI"></textarea>
 
     <div class="logo-bottom">
-      <img src="./logo.png" alt="logo" id="logoImg">
+      <img src="./logo.png" alt="logo" id="logoImgEl">
     </div>
   </div>
 </div>
@@ -189,7 +189,7 @@ let photoImg = null, photoScale = 1, photoX = 0, photoY = 0, dragStart = null;
 const timbreImg = new Image(); timbreImg.src = './timbre.png';
 const logoImg   = new Image(); logoImg.src   = './logo.png';
 
-/* ══ PHOTO ══ */
+/* ══ PHOTO : chargement ══ */
 photoZone.addEventListener('click', () => { if (!photoImg) photoInput.click(); });
 photoInput.addEventListener('change', (e) => { if (e.target.files[0]) loadPhoto(e.target.files[0]); });
 
@@ -290,10 +290,11 @@ function exportCard() {
   ctx.fillStyle = '#f5edce';
   ctx.fillRect(0, PHOTO_H, CARD_W, TEXT_H);
 
-  // 3) Timbre
+  // 3) Timbre (ratio naturel conservé)
   if (timbreImg.complete && timbreImg.naturalWidth > 0) {
-    const sw = 110, sh = 140;
-    ctx.drawImage(timbreImg, CARD_W - sw - 24, PHOTO_H + 24, sw, sh);
+    const sh = 140;
+    const sw = (timbreImg.naturalWidth / timbreImg.naturalHeight) * sh;
+    ctx.drawImage(timbreImg, CARD_W - sw - 24, PHOTO_H + 20, sw, sh);
   }
 
   // 4) Texte principal
@@ -312,12 +313,12 @@ function exportCard() {
     ctx.fillText(line, CARD_W / 2, startY + i * lineH + lineH / 2);
   });
 
-  // 5) Logo en bas
+  // 5) Logo en bas (ratio naturel conservé)
   if (logoImg.complete && logoImg.naturalWidth > 0) {
-    const lh = 60;
+    const lh = 76;
     const lw = (logoImg.naturalWidth / logoImg.naturalHeight) * lh;
-    ctx.globalAlpha = 0.8;
-    ctx.drawImage(logoImg, (CARD_W - lw) / 2, CARD_H - lh - 16, lw, lh);
+    ctx.globalAlpha = 0.85;
+    ctx.drawImage(logoImg, (CARD_W - lw) / 2, CARD_H - lh - 14, lw, lh);
     ctx.globalAlpha = 1;
   }
 
